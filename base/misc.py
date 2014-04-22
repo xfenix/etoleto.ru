@@ -50,9 +50,3 @@ class human_app_title(str):
 
     __copy__ = lambda self: self
     __deepcopy__ = lambda self, memodict: self
-
-
-def get_now_tz():
-    """ Simple date.now with tz support
-    """
-    return timezone.now().astimezone(timezone.get_default_timezone())

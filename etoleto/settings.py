@@ -76,22 +76,31 @@ TEMPLATE_DIRS = (
 ROOT_URLCONF = 'etoleto.urls'
 WSGI_APPLICATION = 'etoleto.wsgi.application'
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'etoleto',
+#         'USER': 'xfenix',
+#         'PASSWORD': '',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
 
-RAVEN_CONFIG = {
-    'dsn': 'http://sentry.xfenix.ru/',
-}
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
     'root': {
         'level': 'DEBUG' if DEBUG else 'WARNING',
-        'handlers': ['console' if DEBUG else 'sentry'],
+        'handlers': ['console'],
     },
     'formatters': {
         'verbose': {
@@ -99,10 +108,6 @@ LOGGING = {
         },
     },
     'handlers': {
-        'sentry': {
-            'level': 'ERROR',
-            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
-        },
         'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
@@ -115,21 +120,11 @@ LOGGING = {
             'handlers': ['console'],
             'propagate': False,
         },
-        'raven': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
-            'propagate': False,
-        },
-        'sentry.errors': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
-            'propagate': False,
-        },
     },
 }
 
 TIME_ZONE = 'Europe/Moscow'
-USE_TZ = True
+USE_TZ = False
 
 LANGUAGE_CODE = 'ru-RU'
 LANGUAGES = [
