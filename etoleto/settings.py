@@ -46,12 +46,14 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     # third party
-    'raven.contrib.django.raven_compat',
     'compressor',
     'imagekit',
+    'south',
+    'flatblocks',
 
     # site applications
     'base',
+    'misc',
 
 )
 

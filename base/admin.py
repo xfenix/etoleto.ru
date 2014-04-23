@@ -8,18 +8,20 @@ from base.misc import BaseModelAdmin
 from base.models import *
 
 
-class MenuAdmin(SortableModelAdmin, BaseModelAdmin):
+class SortableBaseModelAdmin(SortableModelAdmin, BaseModelAdmin):
+    pass
+
+
+class MenuAdmin(SortableBaseModelAdmin):
     list_display_over = ('id', 'title', 'path', )
     list_display = list_display_over
     list_editable = ('path', 'title', )
     list_display_links = ('id', )
-    sortable = 'order'
 
 
 class NewsImagesInline(SortableTabularInline):
     list_display = ('image', 'detail_preview', 'list_preview')
     model = NewsImages
-    sortable = 'order'
 
 
 class NewsAdmin(BaseModelAdmin):
@@ -33,13 +35,11 @@ class RecipeImagesInline(SortableTabularInline):
     list_display = ('image', 'detail_preview', 'list_preview')
     model = RecipeImages
     suit_classes = 'suit-tab suit-tab-general'
-    sortable = 'order'
 
 
 class RecipeIngredientsInline(SortableTabularInline):
     model = RecipeIngredients
     suit_classes = 'suit-tab suit-tab-ingr'
-    sortable = 'order'
 
 
 class RecipeAdmin(BaseModelAdmin):
@@ -50,7 +50,7 @@ class RecipeAdmin(BaseModelAdmin):
     fieldsets = [
         (None, {
             'classes': ('suit-tab suit-tab-general',),
-            'fields': ['title', 'date', 'short_descr', 'instruction', 'note']
+            'fields': ['title', 'slug', 'date', 'short_descr', 'instruction', 'note']
         }),
         (None, {
             'classes': ('suit-tab suit-tab-ingr',),
@@ -61,7 +61,7 @@ class RecipeAdmin(BaseModelAdmin):
     )
 
 
-class ProductCategoryAdmin(BaseModelAdmin):
+class ProductCategoryAdmin(SortableBaseModelAdmin):
     list_display_over = ('title', 'slug', 'image')
     list_display = list_display_over
     list_display_links = list_display_over

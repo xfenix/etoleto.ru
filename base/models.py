@@ -4,7 +4,6 @@ from django.db import models
 from modeldict.models import ModelDict
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit, ResizeToFill
-from dbarray import CharArrayField
 
 
 """ Misc
@@ -184,6 +183,10 @@ class Recipe(BaseModel):
         max_length=255,
         verbose_name=u'Название'
     )
+    slug = models.SlugField(
+        max_length=255,
+        verbose_name=u'Алиас для URL'
+    )
     date = models.DateTimeField(
         max_length=255,
         verbose_name=u'Дата',
@@ -302,7 +305,7 @@ class ProductCategory(BaseModel):
     )
     slug = models.SlugField(
         max_length=255,
-        verbose_name=u'Алиас'
+        verbose_name=u'Алиас для URL'
     )
     image = models.ImageField(
         upload_to=u'category',
@@ -326,8 +329,8 @@ class ProductCategory(BaseModel):
 
     class Meta:
         ordering = ['order']
-        verbose_name = u'Категория'
-        verbose_name_plural = u'Категории'
+        verbose_name = u'Продукты: категория'
+        verbose_name_plural = u'Продукты: категории'
 
 
 class Product(BaseModel):
@@ -340,6 +343,10 @@ class Product(BaseModel):
     title = models.CharField(
         max_length=255,
         verbose_name=u'Название'
+    )
+    slug = models.SlugField(
+        max_length=255,
+        verbose_name=u'Алиас для URL'
     )
     short_descr = models.TextField(
         verbose_name=u'Краткий текст продукта',
