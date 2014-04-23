@@ -38,6 +38,9 @@ class MainSlider(BaseModel):
         verbose_name=u'Сортировка',
     )
 
+    def __unicode__(self):
+        return unicode(self.title)
+
     class Meta:
         ordering = ['order']
         verbose_name = u'Слайд на главной странице'
@@ -53,7 +56,7 @@ class AboutGalleries(BaseModel):
     )
     image = models.ImageField(
         upload_to=u'aboutgal',
-        verbose_name=u'Изображение',
+        verbose_name=u'Превью',
     )
     # preview for news detail page
     # where gallery is
@@ -69,6 +72,9 @@ class AboutGalleries(BaseModel):
     order = models.PositiveIntegerField(
         verbose_name=u'Сортировка',
     )
+
+    def __unicode__(self):
+        return unicode(self.title)
 
     class Meta:
         ordering = ['order']
@@ -94,6 +100,20 @@ class AboutGalleriesImages(BaseModel):
     order = models.PositiveIntegerField(
         verbose_name=u'Сортировка',
     )
+    # preview for news detail page
+    # where gallery is
+    preview = ImageSpecField(
+        source='image',
+        processors=[
+            ResizeToFill(
+                80, 80,
+                upscale=False
+            )
+        ]
+    )
+
+    def __unicode__(self):
+        return unicode(self.title)
 
     class Meta:
         ordering = ['order']

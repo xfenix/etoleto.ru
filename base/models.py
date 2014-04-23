@@ -131,7 +131,7 @@ class News(BaseModel):
     )
 
     def __unicode__(self):
-        return u"%s" % self.title
+        return unicode(self.title)
 
     class Meta:
         ordering = ['-date']
@@ -177,7 +177,7 @@ class NewsImages(BaseModel):
     )
 
     def __unicode__(self):
-        return u"%s" % self.image
+        return unicode(self.image)
 
     class Meta:
         verbose_name = u'Изображение в новость'
@@ -226,7 +226,7 @@ class Recipe(BaseModel):
     )
 
     def __unicode__(self):
-        return u"%s" % self.title
+        return unicode(self.title)
 
     class Meta:
         ordering = ['-date']
@@ -335,7 +335,7 @@ class ProductCategory(BaseModel):
     )
 
     def __unicode__(self):
-        return u"%s" % self.title
+        return unicode(self.title)
 
     class Meta:
         ordering = ['order']
@@ -348,7 +348,7 @@ class Product(BaseModel):
     """
     category = models.ForeignKey(
         ProductCategory,
-        verbose_name=u'Продукт'
+        verbose_name=u'Категория продукта'
     )
     title = models.CharField(
         max_length=255,
@@ -418,7 +418,7 @@ class Product(BaseModel):
     )
 
     def __unicode__(self):
-        return u"%s" % self.title
+        return unicode(self.title)
 
     class Meta:
         ordering = ['order']
@@ -465,9 +465,56 @@ class ProductImages(BaseModel):
     )
 
     def __unicode__(self):
-        return u"%s" % self.image
+        return unicode(self.image)
 
     class Meta:
         ordering = ['order']
         verbose_name = u'Изображение в продукте'
         verbose_name_plural = u'Изображения в продуктах'
+
+
+"""
+And other model
+"""
+class WhereToBuy(BaseModel):
+    """ WhereToBuy model
+    """
+    POS_TYPES = (
+        (0, 'Торговая сеть'),
+        (1, 'Интернет-магазин'),
+    )
+    title = models.CharField(
+        max_length=255,
+        verbose_name=u'Название',
+        help_text=u"""Для торговой сети передаётся google карте в неизменном виде. """
+                  u"""Поэтому обязательно проверяйте корректность заполнения этого поля.""",
+    )
+    pos_type = models.IntegerField(
+        default=0,
+        choices=POS_TYPES,
+        verbose_name=u'Тип магазина'
+    )
+    image = models.ImageField(
+        upload_to=u'category',
+        verbose_name=u'Изображение',
+    )
+    preview = ImageSpecField(
+        source='image',
+        processors=[
+            ResizeToFill(
+                120, 170,
+                upscale=False
+            )
+        ]
+    )
+    order = models.PositiveIntegerField(
+        verbose_name=u'Сортировка',
+    )
+
+    def __unicode__(self):
+        return unicode(self.title)
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = u'Точка в "где купить"'
+        verbose_name_plural = u'Точки в "где купить"'

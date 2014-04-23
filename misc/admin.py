@@ -21,10 +21,11 @@ class AboutGalleriesImagesInline(SortableTabularInline):
 
 
 class AboutGalleriesAdmin(SortableBaseModelAdmin):
-    inline = (AboutGalleriesImagesInline, )
+    inlines = (AboutGalleriesImagesInline, )
     list_display_over = ('title', 'image')
     list_display = list_display_over
     list_display_links = list_display_over
 
 
 admin.site.register(MainSlider, MainSliderAdmin)
+admin.site.register(AboutGalleries, AboutGalleriesAdmin)
