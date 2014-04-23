@@ -15,7 +15,7 @@ class BaseModel(models.Model):
         abstract = True
 
     def __unicode__(self):
-        return u"%s" % self.pk
+        return unicode(self.pk)
 
 
 """ Misc models
@@ -31,6 +31,9 @@ class Setting(BaseModel):
     value = models.TextField(
         verbose_name=u'Значение'
     )
+
+    def __unicode__(self):
+        return unicode(self.key)
 
     class Meta:
         verbose_name = u'Настройка'
@@ -55,6 +58,9 @@ class Menu(BaseModel):
         verbose_name=u'Сортировка',
     )
 
+    def __unicode__(self):
+        return unicode(self.title)
+
     class Meta:
         ordering = ['order']
         verbose_name = u'Меню'
@@ -65,6 +71,10 @@ class Partners(BaseModel):
     """ Base partners model
     eg. partners in footer
     """
+    title = models.CharField(
+        max_length=255,
+        verbose_name=u'Название'
+    )
     logo = models.ImageField(
         upload_to=u'partners',
         verbose_name=u'Изображение',
@@ -88,7 +98,7 @@ class Partners(BaseModel):
     )
 
     def __unicode__(self):
-        return u"%s" % self.image
+        return unicode(self.logo)
 
     class Meta:
         verbose_name = u'Партнёр'

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from suit.admin import SortableModelAdmin
+from suit.admin import SortableModelAdmin, SortableTabularInline
 
 from base.misc import BaseModelAdmin
 from misc.models import *

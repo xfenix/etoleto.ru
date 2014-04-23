@@ -67,10 +67,15 @@ class ProductCategoryAdmin(SortableBaseModelAdmin):
     list_display_links = list_display_over
 
 
-class ProductAdmin(BaseModelAdmin):
+class ProductAdmin(SortableBaseModelAdmin):
     list_display_over = ('category', 'title', 'weight', 'image')
     list_display = list_display_over
     list_display_links = list_display_over
+
+
+class SettingAdmin(BaseModelAdmin):
+    list_display_over = ('key', 'value')
+    list_display = list_display_over
 
 
 admin.site.register(Menu, MenuAdmin)
@@ -78,3 +83,4 @@ admin.site.register(News, NewsAdmin)
 admin.site.register(Recipe, RecipeAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(ProductCategory, ProductCategoryAdmin)
+admin.site.register(Setting, SettingAdmin)
