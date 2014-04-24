@@ -26,9 +26,9 @@ SUIT_CONFIG = {
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'i@vi^9-trjjd(zr5j_4bf(l2^=tv*)0#6o9vwkg*(w@#fajt^v'
+SITE_ID = 1
 
 DEBUG = True
-
 TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -44,12 +44,15 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 'django.contrib.sites',
+    # 'django.contrib.flatpages',
 
     # third party
     'compressor',
     'imagekit',
     'south',
     'flatblocks',
+    'utilities',
 
     # site applications
     'base',
@@ -152,10 +155,8 @@ MEDIA_URL = '/media/'
 # perfomance
 EXCLUDE_FROM_MINIFYING = ('/admin', )
 HTML_MINIFY = True
-COMPRESS_PARSER = (
-    # LxmlParser is the fastest available parser
-    'compressor.parser.LxmlParser',
-)
+# LxmlParser is the fastest available parser
+COMPRESS_PARSER = 'compressor.parser.HtmlParser'
 COMPRESS_CSS_FILTERS = (
     'compressor.filters.css_default.CssAbsoluteFilter',
     'compressor.filters.cssmin.CSSMinFilter',
@@ -166,3 +167,5 @@ COMPRESS_JS_FILTERS = (
 COMPRESS_PRECOMPILERS = (
     ('text/x-scss', 'sass --scss {infile} {outfile}'),
 )
+if not DEBUG:
+    COMPRESS_ENABLED = True

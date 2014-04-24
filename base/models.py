@@ -5,6 +5,8 @@ from modeldict.models import ModelDict
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit, ResizeToFill
 
+from base.misc import ImagePreviewField
+
 
 """ Misc
 """
@@ -67,44 +69,6 @@ class Menu(BaseModel):
         verbose_name_plural = u'Меню'
 
 
-class Partners(BaseModel):
-    """ Base partners model
-    eg. partners in footer
-    """
-    title = models.CharField(
-        max_length=255,
-        verbose_name=u'Название'
-    )
-    logo = models.ImageField(
-        upload_to=u'partners',
-        verbose_name=u'Изображение',
-    )
-    link = models.URLField(
-        max_length=255,
-        verbose_name=u'Ссылка с логотипа',
-        null=True,
-        blank=True,
-    )
-    # preview for news detail page
-    # where gallery is
-    preview = ImageSpecField(
-        source='logo',
-        processors=[
-            ResizeToFit(
-                height=60,
-                upscale=False
-            )
-        ]
-    )
-
-    def __unicode__(self):
-        return unicode(self.logo)
-
-    class Meta:
-        verbose_name = u'Партнёр'
-        verbose_name_plural = u'Партнёры'
-
-
 """
 News models
 """
@@ -144,9 +108,10 @@ class NewsImages(BaseModel):
     """
     parent = models.ForeignKey(
         News,
+        related_name='images',
         verbose_name=u'Новость'
     )
-    image = models.ImageField(
+    image = ImagePreviewField(
         upload_to=u'news',
         verbose_name=u'Изображение',
     )
@@ -174,6 +139,7 @@ class NewsImages(BaseModel):
     )
     order = models.PositiveIntegerField(
         verbose_name=u'Сортировка',
+        default=0,
     )
 
     def __unicode__(self):
@@ -246,6 +212,7 @@ class RecipeIngredients(BaseModel):
     )
     order = models.PositiveIntegerField(
         verbose_name=u'Сортировка',
+        default=0,
     )
 
     def __unicode__(self):
@@ -265,7 +232,7 @@ class RecipeImages(BaseModel):
         related_name='recipeimages',
         verbose_name=u'Рецепт'
     )
-    image = models.ImageField(
+    image = ImagePreviewField(
         upload_to=u'recipe',
         verbose_name=u'Изображение',
     )
@@ -293,6 +260,7 @@ class RecipeImages(BaseModel):
     )
     order = models.PositiveIntegerField(
         verbose_name=u'Сортировка',
+        default=0,
     )
 
     def __unicode__(self):
@@ -317,7 +285,7 @@ class ProductCategory(BaseModel):
         max_length=255,
         verbose_name=u'Алиас для URL'
     )
-    image = models.ImageField(
+    image = ImagePreviewField(
         upload_to=u'category',
         verbose_name=u'Изображение',
     )
@@ -332,6 +300,7 @@ class ProductCategory(BaseModel):
     )
     order = models.PositiveIntegerField(
         verbose_name=u'Сортировка',
+        default=0,
     )
 
     def __unicode__(self):
@@ -398,7 +367,7 @@ class Product(BaseModel):
         null=True,
         blank=True
     )
-    image = models.ImageField(
+    image = ImagePreviewField(
         upload_to=u'productlist',
         verbose_name=u'Изображение',
     )
@@ -415,6 +384,7 @@ class Product(BaseModel):
     )
     order = models.PositiveIntegerField(
         verbose_name=u'Сортировка',
+        default=0,
     )
 
     def __unicode__(self):
@@ -434,7 +404,7 @@ class ProductImages(BaseModel):
         related_name='productimages',
         verbose_name=u'Продукт'
     )
-    image = models.ImageField(
+    image = ImagePreviewField(
         upload_to=u'product',
         verbose_name=u'Изображение',
     )
@@ -462,6 +432,7 @@ class ProductImages(BaseModel):
     )
     order = models.PositiveIntegerField(
         verbose_name=u'Сортировка',
+        default=0,
     )
 
     def __unicode__(self):
@@ -474,7 +445,7 @@ class ProductImages(BaseModel):
 
 
 """
-And other model
+And other models
 """
 class WhereToBuy(BaseModel):
     """ WhereToBuy model
@@ -494,7 +465,7 @@ class WhereToBuy(BaseModel):
         choices=POS_TYPES,
         verbose_name=u'Тип магазина'
     )
-    image = models.ImageField(
+    image = ImagePreviewField(
         upload_to=u'category',
         verbose_name=u'Изображение',
     )
@@ -509,6 +480,7 @@ class WhereToBuy(BaseModel):
     )
     order = models.PositiveIntegerField(
         verbose_name=u'Сортировка',
+        default=0,
     )
 
     def __unicode__(self):
