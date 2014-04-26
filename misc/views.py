@@ -1,45 +1,17 @@
+import os
+from logging import getLogger
 from django.conf import settings
+from django.core.cache import cache
 from django.http import Http404, HttpResponse, HttpResponsePermanentRedirect
 from django.shortcuts import get_object_or_404
-from django.template import loader, RequestContext
+from django.template import loader, RequestContext, TemplateDoesNotExist
 from django.utils.safestring import mark_safe
 from django.views.decorators.csrf import csrf_protect
 
 from misc.models import FlatPage
 
 
-DEFAULT_TEMPLATE = 'flatpages/default.html'
-
-# original django flatpages comment:
-# This view is called from FlatpageFallbackMiddleware.process_response
-# when a 404 is raised, which often means CsrfViewMiddleware.process_view
-# has not been called even if CsrfViewMiddleware is installed. So we need
-# to use @csrf_protect, in case the template needs {% csrf_token %}.
-# However, we can't just wrap this view; if no matching flatpage exists,
-# or a redirect is required for authentication, the 404 needs to be returned
-# without any CSRF checks. Therefore, we only
-# CSRF protect the internal implementation.
-
-@csrf_protect
-def render_flatpage(request, f):
-    """ Internal interface to the flat page view.
-    """
-    if f.template_name:
-        t = loader.select_template((f.template_name, DEFAULT_TEMPLATE))
-    else:
-        t = loader.get_template(DEFAULT_TEMPLATE)
-
-    # To avoid having to always use the "|safe" filter in flatpage templates,
-    # mark the title and content as already safe (since they are raw HTML
-    # content in the first place).
-    f.title = mark_safe(f.title)
-    f.content = mark_safe(f.content)
-
-    c = RequestContext(request, {
-        'flatpage': f,
-    })
-    response = HttpResponse(t.render(c))
-    return response
+logger = getLogger( __name__ )
 
 
 def flatpage(request, url):
@@ -55,12 +27,32 @@ def flatpage(request, url):
     if not url.startswith('/'):
         url = '/' + url
     try:
-        f = get_object_or_404(FlatPage, url=url)
+        flatpage = get_object_or_404(FlatPage, url=url)
     except Http404:
         if not url.endswith('/') and settings.APPEND_SLASH:
             url += '/'
-            f = get_object_or_404(FlatPage, url=url)
+            flatpage = get_object_or_404(FlatPage, url=url)
             return HttpResponsePermanentRedirect('%s/' % request.path)
         else:
             raise
-    return render_flatpage(request, f)
+    try:
+        template = loader.get_template(flatpage.get_template())
+    except TemplateDoesNotExist:
+        logger.error(
+            u'Template %s doesnt exists, loaded default' % flatpage.get_template()
+        )
+        template = loader.get_template(flatpage.get_template(True))
+    # To avoid having to always use the "|safe" filter in flatpage templates,
+    # mark the title and content as already safe (since they are raw HTML
+    # content in the first place).
+    flatpage.title = mark_safe(flatpage.title)
+    flatpage.content = mark_safe(flatpage.content)
+    c = RequestContext(request, {'flatpage': flatpage,})
+    response = HttpResponse(template.render(c))
+    return response
+
+
+""" Other views
+"""
+def clear_cache(request):
+    cache.clear()

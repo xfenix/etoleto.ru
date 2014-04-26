@@ -26,6 +26,9 @@ class MarkHTMLMiddleware(object):
 
 
 class MinifyHTMLMiddleware(object):
+    """ Minifaction html middleware
+    reduce client side traffic and speedup your site
+    """
     def tag_replace(self, match):
         self.safe_storage[match.start()] = match.group(1)
         return SAFE_TMP_TAG_MARKER % match.start()

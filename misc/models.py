@@ -1,12 +1,64 @@
 # -*- coding: utf-8 -*-
+import os
+import glob
+from django.core.cache import cache
 from django.db import models
+from django.conf import settings
 from django.utils.encoding import iri_to_uri
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit, ResizeToFill
 from flatblocks.models import FlatBlock
+from modeldict.models import ModelDict
 
 from base.misc import ImagePreviewField
 from base.models import BaseModel
+
+
+class Setting(BaseModel):
+    """ Misc settings
+    """
+    key = models.CharField(
+        max_length=100,
+        verbose_name=u'Ключ',
+        db_index=True
+    )
+    value = models.TextField(
+        verbose_name=u'Значение'
+    )
+
+    def __unicode__(self):
+        return unicode(self.key)
+
+    class Meta:
+        verbose_name = u'Настройка'
+        verbose_name_plural = u'Настройки'
+
+custom_settings = ModelDict(Setting, key='key', value='value', instances=False)
+
+
+class Menu(BaseModel):
+    """ Main site menu
+    """
+    title = models.CharField(
+        max_length=255,
+        verbose_name=u'Название'
+    )
+    path = models.CharField(
+        max_length=255,
+        verbose_name=u'Путь',
+        db_index=True
+    )
+    order = models.PositiveIntegerField(
+        verbose_name=u'Сортировка',
+    )
+
+    def __unicode__(self):
+        return unicode(self.title)
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = u'Меню'
+        verbose_name_plural = u'Меню'
 
 
 class MainSlider(BaseModel):
@@ -174,16 +226,57 @@ class FlatBlockProxy(FlatBlock):
         verbose_name_plural = u'Блоки текста'
 
 
+def get_avail_tpls():
+    """ Scan flatpages directory in template folder
+    and then returns list of all available templates
+    """
+    key = 'flattemplates'
+    cached = cache.get(key)
+    if cached:
+        return cached
+    try:
+        tpl_dir = settings.TEMPLATE_DIRS[0]
+    except IndexError:
+        return ()
+    try:
+        templates = glob.glob(
+            os.path.join(
+                tpl_dir, settings.FLATPAGE_TPL_DIR, '*.html'
+            )
+        )
+    except TypeError:
+        return []
+    choices = []
+    for tpl in templates:
+        choices.append(
+            (os.path.split(tpl)[-1], os.path.split(tpl)[-1])
+        )
+    cache.set(key, choices)
+    return choices
+
+
 class FlatPage(models.Model):
     """ Custom flatPage
     rewrite of https://github.com/django/django/blob/master/django/contrib/flatpages/
     """
-    url = models.CharField(u'URL', max_length=255, db_index=True)
-    title = models.CharField(u'Название', max_length=255)
-    content = models.TextField(u'Содержимое', blank=True)
+    url = models.CharField(
+        max_length=255,
+        db_index=True,
+        verbose_name=u'URL',
+    )
+    title = models.CharField(
+        max_length=255,
+        verbose_name=u'Название',
+    )
+    content = models.TextField(
+        verbose_name=u'Содержимое',
+        blank=True,
+    )
     template_name = models.CharField(
-        u'Шаблон', max_length=70, blank=True,
-        help_text=u"Например: 'flatpages/contact_page.html'. Если оставить пустым, используется 'flatpages/default.html'."
+        u'Шаблон', max_length=255,
+        help_text=u"Выберите из списка доступных шаблонов (директория /templates/%s/)" % settings.FLATPAGE_TPL_DIR,
+        choices=get_avail_tpls(),
+        default=dict(get_avail_tpls())[settings.FLATPAGE_DEFAULT_TPL],
     )
 
     class Meta:
@@ -191,8 +284,16 @@ class FlatPage(models.Model):
         verbose_name_plural = u'Простые страницы'
         ordering = ('url',)
 
-    def __str__(self):
-        return "%s -- %s" % (self.url, self.title)
+    def __unicode__(self):
+        return u"%s -- %s" % (self.url, unicode(self.title))
+
+    def get_template(self, default=False):
+        """ return relative path to flatpage template
+        """
+        return os.path.join(
+            settings.FLATPAGE_TPL_DIR,
+            settings.FLATPAGE_DEFAULT_TPL if default else self.template_name
+        )
 
     def get_absolute_url(self):
         # Handle script prefix manually because we bypass reverse()

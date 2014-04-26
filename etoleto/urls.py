@@ -8,6 +8,7 @@ from misc.views import flatpage
 admin.autodiscover()
 
 urlpatterns = patterns('',
+    url(r'^admin/filebrowser/', include('filebrowser.urls')),
     url(r'^$', 'base.views.index', name='index'),
 
     # admin urls

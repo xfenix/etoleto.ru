@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from django.db import models
-from modeldict.models import ModelDict
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit, ResizeToFill
 
@@ -18,55 +17,6 @@ class BaseModel(models.Model):
 
     def __unicode__(self):
         return unicode(self.pk)
-
-
-""" Misc models
-"""
-class Setting(BaseModel):
-    """ Misc settings
-    """
-    key = models.CharField(
-        max_length=100,
-        verbose_name=u'Ключ',
-        db_index=True
-    )
-    value = models.TextField(
-        verbose_name=u'Значение'
-    )
-
-    def __unicode__(self):
-        return unicode(self.key)
-
-    class Meta:
-        verbose_name = u'Настройка'
-        verbose_name_plural = u'Настройки'
-
-custom_settings = ModelDict(Setting, key='key', value='value', instances=False)
-
-
-class Menu(BaseModel):
-    """ Main site menu
-    """
-    title = models.CharField(
-        max_length=255,
-        verbose_name=u'Название'
-    )
-    path = models.CharField(
-        max_length=255,
-        verbose_name=u'Путь',
-        db_index=True
-    )
-    order = models.PositiveIntegerField(
-        verbose_name=u'Сортировка',
-    )
-
-    def __unicode__(self):
-        return unicode(self.title)
-
-    class Meta:
-        ordering = ['order']
-        verbose_name = u'Меню'
-        verbose_name_plural = u'Меню'
 
 
 """

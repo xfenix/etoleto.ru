@@ -12,13 +12,6 @@ class SortableBaseModelAdmin(SortableModelAdmin, BaseModelAdmin):
     pass
 
 
-class MenuAdmin(SortableBaseModelAdmin):
-    list_display_over = ('id', 'title', 'path', )
-    list_display = list_display_over
-    list_editable = ('path', 'title', )
-    list_display_links = ('id', )
-
-
 class NewsImagesInline(SortableTabularInline):
     list_display = ('image', 'detail_preview', 'list_preview')
     model = NewsImages
@@ -76,21 +69,14 @@ class ProductAdmin(SortableBaseModelAdmin):
     list_display_links = list_display_over
 
 
-class SettingAdmin(BaseModelAdmin):
-    list_display_over = ('key', 'value')
-    list_display = list_display_over
-
-
 class WhereToBuyAdmin(SortableBaseModelAdmin):
     list_display_over = ('title', 'pos_type', 'image')
     list_display = list_display_over
     list_display_links = list_display_over
 
 
-admin.site.register(Menu, MenuAdmin)
 admin.site.register(News, NewsAdmin)
 admin.site.register(Recipe, RecipeAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(ProductCategory, ProductCategoryAdmin)
-admin.site.register(Setting, SettingAdmin)
 admin.site.register(WhereToBuy, WhereToBuyAdmin)

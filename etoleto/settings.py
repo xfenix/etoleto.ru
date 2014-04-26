@@ -19,10 +19,30 @@ CORE_PATH = os.path.realpath(os.path.dirname(__file__))
 SUIT_CONFIG = {
     'ADMIN_NAME': mark_safe(u'&laquo;Это Лето&raquo;'),
     'HEADER_DATE_FORMAT': 'l, j E Y',
+    'SHOW_REQUIRED_ASTERISK': True,
+    'MENU': (
+        {
+            'label': u'Пользователи',
+            'app': 'auth',
+        },
+        {
+            'label': u'Базовые разделы',
+            'app': 'base',
+            'icon': 'icon-globe'
+        },
+        {
+            'label': u'Дополнительные разделы',
+            'app': 'misc',
+            'icon': 'icon-list-alt'
+        },
+        '-',
+        {
+            'label': u'Файловый менеджер',
+            'url': '/admin/filebrowser/browse/',
+            'icon': 'icon-hdd',
+        },
+    )
 }
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'i@vi^9-trjjd(zr5j_4bf(l2^=tv*)0#6o9vwkg*(w@#fajt^v'
@@ -33,7 +53,6 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
-# Application definition
 INSTALLED_APPS = (
     'suit',
 
@@ -53,14 +72,19 @@ INSTALLED_APPS = (
     'south',
     'flatblocks',
     'utilities',
+    'filebrowser',
 
     # site applications
     'base',
     'misc',
-
 )
 
+FILEBROWSER_SUIT_TEMPLATE = True
+
 MIDDLEWARE_CLASSES = (
+    # per site cache
+    'django.middleware.cache.UpdateCacheMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -68,6 +92,10 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'base.minify.MinifyHTMLMiddleware',
+
+    # per site cache
+    'django.middleware.cache.FetchFromCacheMiddleware',
+
     'base.minify.MarkHTMLMiddleware',
 )
 
@@ -128,6 +156,18 @@ LOGGING = {
     },
 }
 
+CACHES = {
+    'default': {
+        # just plain old filebased cache
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache' if DEBUG else\
+                   'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/tmp/etoleto_cache/',
+        # we have very static site
+        # and we can cache data for very long period of time
+        'TIMEOUT': 86400
+    }
+}
+
 TIME_ZONE = 'Europe/Moscow'
 USE_TZ = False
 
@@ -153,7 +193,6 @@ MEDIA_ROOT = os.path.join(CORE_PATH, 'media')
 MEDIA_URL = '/media/'
 
 # perfomance
-EXCLUDE_FROM_MINIFYING = ('/admin', )
 HTML_MINIFY = True
 # LxmlParser is the fastest available parser
 COMPRESS_PARSER = 'compressor.parser.HtmlParser'
@@ -167,5 +206,14 @@ COMPRESS_JS_FILTERS = (
 COMPRESS_PRECOMPILERS = (
     ('text/x-scss', 'sass --scss {infile} {outfile}'),
 )
+
+FLATPAGE_TPL_DIR = 'flatpages'
+FLATPAGE_DEFAULT_TPL = 'default.html'
+
 if not DEBUG:
     COMPRESS_ENABLED = True
+
+if DEBUG:
+    INSTALLED_APPS += (
+        'devserver',
+    )
