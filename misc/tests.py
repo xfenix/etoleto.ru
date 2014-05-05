@@ -9,6 +9,8 @@ logger = getLogger( __name__ )
 
 
 class MiscTest(TestCase):
+    """ Simple tests for various views in misc app
+    """
     def test_simple_flatpage(self):
         page = FlatPageFactory()
         self.assertTrue(

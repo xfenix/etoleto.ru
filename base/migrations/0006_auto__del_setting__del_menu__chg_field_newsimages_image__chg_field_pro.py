@@ -16,22 +16,22 @@ class Migration(SchemaMigration):
 
 
         # Changing field 'NewsImages.image'
-        db.alter_column(u'base_newsimages', 'image', self.gf('base.misc.ImagePreviewField')(max_length=100))
+        db.alter_column(u'base_newsimages', 'image', self.gf('base.utils.ImagePreviewField')(max_length=100))
 
         # Changing field 'Product.image'
-        db.alter_column(u'base_product', 'image', self.gf('base.misc.ImagePreviewField')(max_length=100))
+        db.alter_column(u'base_product', 'image', self.gf('base.utils.ImagePreviewField')(max_length=100))
 
         # Changing field 'ProductImages.image'
-        db.alter_column(u'base_productimages', 'image', self.gf('base.misc.ImagePreviewField')(max_length=100))
+        db.alter_column(u'base_productimages', 'image', self.gf('base.utils.ImagePreviewField')(max_length=100))
 
         # Changing field 'WhereToBuy.image'
-        db.alter_column(u'base_wheretobuy', 'image', self.gf('base.misc.ImagePreviewField')(max_length=100))
+        db.alter_column(u'base_wheretobuy', 'image', self.gf('base.utils.ImagePreviewField')(max_length=100))
 
         # Changing field 'RecipeImages.image'
-        db.alter_column(u'base_recipeimages', 'image', self.gf('base.misc.ImagePreviewField')(max_length=100))
+        db.alter_column(u'base_recipeimages', 'image', self.gf('base.utils.ImagePreviewField')(max_length=100))
 
         # Changing field 'ProductCategory.image'
-        db.alter_column(u'base_productcategory', 'image', self.gf('base.misc.ImagePreviewField')(max_length=100))
+        db.alter_column(u'base_productcategory', 'image', self.gf('base.utils.ImagePreviewField')(max_length=100))
 
     def backwards(self, orm):
         # Adding model 'Setting'
@@ -82,7 +82,7 @@ class Migration(SchemaMigration):
         u'base.newsimages': {
             'Meta': {'object_name': 'NewsImages'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'image': ('base.misc.ImagePreviewField', [], {'max_length': '100'}),
+            'image': ('base.utils.ImagePreviewField', [], {'max_length': '100'}),
             'order': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
             'parent': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'images'", 'to': u"orm['base.News']"})
         },
@@ -94,7 +94,7 @@ class Migration(SchemaMigration):
             'composition': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'fats': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'image': ('base.misc.ImagePreviewField', [], {'max_length': '100'}),
+            'image': ('base.utils.ImagePreviewField', [], {'max_length': '100'}),
             'order': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
             'proteins': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
             'short_descr': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
@@ -106,7 +106,7 @@ class Migration(SchemaMigration):
         u'base.productcategory': {
             'Meta': {'ordering': "['order']", 'object_name': 'ProductCategory'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'image': ('base.misc.ImagePreviewField', [], {'max_length': '100'}),
+            'image': ('base.utils.ImagePreviewField', [], {'max_length': '100'}),
             'order': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
             'slug': ('django.db.models.fields.SlugField', [], {'max_length': '255'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255'})
@@ -114,7 +114,7 @@ class Migration(SchemaMigration):
         u'base.productimages': {
             'Meta': {'ordering': "['order']", 'object_name': 'ProductImages'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'image': ('base.misc.ImagePreviewField', [], {'max_length': '100'}),
+            'image': ('base.utils.ImagePreviewField', [], {'max_length': '100'}),
             'order': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
             'parent': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'productimages'", 'to': u"orm['base.Product']"})
         },
@@ -132,7 +132,7 @@ class Migration(SchemaMigration):
         u'base.recipeimages': {
             'Meta': {'object_name': 'RecipeImages'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'image': ('base.misc.ImagePreviewField', [], {'max_length': '100'}),
+            'image': ('base.utils.ImagePreviewField', [], {'max_length': '100'}),
             'order': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
             'parent': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'recipeimages'", 'to': u"orm['base.Recipe']"})
         },
@@ -146,7 +146,7 @@ class Migration(SchemaMigration):
         u'base.wheretobuy': {
             'Meta': {'ordering': "['order']", 'object_name': 'WhereToBuy'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'image': ('base.misc.ImagePreviewField', [], {'max_length': '100'}),
+            'image': ('base.utils.ImagePreviewField', [], {'max_length': '100'}),
             'order': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
             'pos_type': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255'})

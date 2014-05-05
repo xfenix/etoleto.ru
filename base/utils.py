@@ -4,7 +4,19 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.admin.widgets import AdminFileWidget
 from django.utils.safestring import mark_safe
+from django_ace import AceWidget
 from pilkit.processors import ResizeToFill
+from suit.widgets import SuitSplitDateTimeWidget
+
+
+class BaseModel(models.Model):
+    """ An abstract base class model that provides some base stuff
+    """
+    class Meta:
+        abstract = True
+
+    def __unicode__(self):
+        return unicode(self.pk)
 
 
 class BaseModelAdmin(admin.ModelAdmin):
@@ -27,6 +39,13 @@ class BaseModelAdmin(admin.ModelAdmin):
         # self.formfield_overrides = {
         #     BitField: {'widget': BitFieldCheckboxSelectMultiple},
         # }
+        over = {
+            models.DateTimeField: {'widget': SuitSplitDateTimeWidget()},
+        }
+        ace = True if not hasattr(self, 'ace') else self.ace
+        if ace:
+            over[models.TextField] = {'widget': AceWidget(mode='html', theme='chrome')}
+        self.formfield_overrides = over
 
     def queryset(self, request):
         return super(BaseModelAdmin, self).queryset(request).select_related(
@@ -117,8 +136,9 @@ class ImagePreviewField(models.ImageField):
         return super(ImagePreviewField, self).formfield(**defaults)
 
 try:
+    # add rule for south
     from south.modelsinspector import add_introspection_rules
-    add_introspection_rules([], ["^base\.misc\.ImagePreviewField",])
+    add_introspection_rules([], ["^base\.utils\.ImagePreviewField",])
 except ImportError:
     # if we dont have installed south
     # then we dont need to add introspection rule for south

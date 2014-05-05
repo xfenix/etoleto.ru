@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 from logging import getLogger
 from django.conf import settings
@@ -7,6 +8,8 @@ from django.shortcuts import get_object_or_404
 from django.template import loader, RequestContext, TemplateDoesNotExist
 from django.utils.safestring import mark_safe
 from django.views.decorators.csrf import csrf_protect
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import never_cache
 
 from misc.models import FlatPage
 
@@ -54,5 +57,10 @@ def flatpage(request, url):
 
 """ Other views
 """
+@login_required
+@never_cache
 def clear_cache(request):
+    """ special admin view for cache clearing
+    """
     cache.clear()
+    return HttpResponse('ok', content_type='text/plain')

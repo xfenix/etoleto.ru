@@ -1,0 +1,9 @@
+/* PRODUCTS MAIN PAGE */
+.products .border-top {
+  float: left;
+  width: 95%;
+  margin: 18px 0 0; }
+  .products .border-top.right {
+    float: right; }
+.products figcaption {
+  font-weight: bold; }

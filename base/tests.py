@@ -9,6 +9,8 @@ logger = getLogger( __name__ )
 
 
 class BaseTest(TestCase):
+    """ Simple tests for various views in base app
+    """
     pass
 
 

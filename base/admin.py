@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.contrib.admin.widgets import AdminFileWidget
 from django.utils.safestring import mark_safe
 
-from base.misc import BaseModelAdmin
+from base.utils import BaseModelAdmin
 from base.models import *
 
 

@@ -5,6 +5,9 @@ from django.conf import settings
 from misc.models import FlatPage
 
 
+""" Form for flatpage admin, check url for matching
+some rules and avoid url duplication
+"""
 class FlatpageForm(forms.ModelForm):
     url = forms.RegexField(
         label=u'URL', max_length=255, regex=r'^[-\w/\.~]+$',

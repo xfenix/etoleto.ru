@@ -2,28 +2,43 @@ from django.conf.urls import patterns, include, url
 from django.conf import settings
 from django.contrib import admin
 
-from misc.views import flatpage
+from base.views import (NewsList, NewsDetailView, ProductList,
+                        WhereToBuyList, )
 
 
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^admin/filebrowser/', include('filebrowser.urls')),
-    url(r'^$', 'base.views.index', name='index'),
-
     # admin urls
+    url(r'^admin/filebrowser/', include('filebrowser.urls')),
+    url(r'^admin/clear_cache/', 'misc.views.clear_cache'),
     url(r'^admin/', include(admin.site.urls)),
 
-    # catch all, try flatpage
-    url(r'^(?P<url>.*/)$', flatpage),
+    # applications urls
+    url(r'^$', 'base.views.index', name='index'),
+    # news
+    url(r'^news/$', NewsList.as_view(), name='news'),
+    url(r'^news/(?P<pk>[0-9]+)/$', NewsDetailView.as_view(), name='news-detail'),
+    # recipes
+    # url(r'^recipes/$', '', name='recipes'),
+    # url(r'^recipes/(?P<slug>.*?)/$', '', name='recipes-detail'),
+    # products
+    # url(r'^products/$', '', name='products'),
+    # url(r'^products/(?P<slug>.*?)/$', '', name='products-detail'),
+    # where to buy
+    url(r'^wheretobuy/$', WhereToBuyList.as_view(), name='wheretobuy'),
 )
 
 handler404 = 'base.views.error_404'
 handler500 = 'base.views.error_500'
 
 if settings.DEBUG:
-    urlpatterns = patterns('',
-        url(r'^media/(?P<path>.*)$', 'django.views.static.serve',
-            {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
-        url(r'', include('django.contrib.staticfiles.urls')),
-    ) + urlpatterns
+    from django.conf.urls.static import static
+    st = static(settings.STATIC_URL, document_root=settings.CORE_PATH + '/static/')
+    md = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns = urlpatterns + md + st
+
+urlpatterns = urlpatterns + patterns('',
+    # catch all pattern, after all try to match flatpage
+    url(r'^(?P<url>.*/)$', 'misc.views.flatpage'),
+)

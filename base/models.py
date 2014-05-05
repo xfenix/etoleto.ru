@@ -1,22 +1,11 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from django.db import models
+from django.core.urlresolvers import reverse
 from imagekit.models import ImageSpecField
-from imagekit.processors import ResizeToFit, ResizeToFill
+from imagekit.processors import *
 
-from base.misc import ImagePreviewField
-
-
-""" Misc
-"""
-class BaseModel(models.Model):
-    """ An abstract base class model that provides some base stuff
-    """
-    class Meta:
-        abstract = True
-
-    def __unicode__(self):
-        return unicode(self.pk)
+from base.utils import ImagePreviewField, BaseModel
 
 
 """
@@ -34,6 +23,19 @@ class News(BaseModel):
         verbose_name=u'Дата',
         default=datetime.today,
     )
+    image = ImagePreviewField(
+        upload_to=u'news',
+        verbose_name=u'Изображение',
+    )
+    # preview for news list page
+    # and main page
+    preview = ImageSpecField(
+        source='image',
+        processors=[
+            ResizeToFit(180, 180, upscale=False),
+            ResizeCanvas(180, 180)
+        ]
+    )
     short_descr = models.TextField(
         verbose_name=u'Краткий текст новости',
         null=True,
@@ -46,6 +48,9 @@ class News(BaseModel):
 
     def __unicode__(self):
         return unicode(self.title)
+
+    def get_absolute_url(self):
+        return reverse('news-detail', kwargs={'pk': self.pk})
 
     class Meta:
         ordering = ['-date']
@@ -62,27 +67,16 @@ class NewsImages(BaseModel):
         verbose_name=u'Новость'
     )
     image = ImagePreviewField(
-        upload_to=u'news',
+        upload_to=u'newsgal',
         verbose_name=u'Изображение',
     )
     # preview for news detail page
     # where gallery is
-    detail_preview = ImageSpecField(
+    preview = ImageSpecField(
         source='image',
         processors=[
             ResizeToFill(
                 81, 80,
-                upscale=False
-            )
-        ]
-    )
-    # preview for news list page
-    # and main page
-    list_preview = ImageSpecField(
-        source='image',
-        processors=[
-            ResizeToFill(
-                190, 180,
                 upscale=False
             )
         ]
@@ -140,6 +134,9 @@ class Recipe(BaseModel):
         null=True,
         blank=True,
     )
+
+    def get_absolute_url(self):
+        return reverse('recipes-detail', {'slug': self.slug})
 
     def __unicode__(self):
         return unicode(self.title)
@@ -337,6 +334,9 @@ class Product(BaseModel):
         default=0,
     )
 
+    def get_absolute_url(self):
+        return reverse('products-detail', {'slug': self.slug})
+
     def __unicode__(self):
         return unicode(self.title)
 
@@ -419,13 +419,23 @@ class WhereToBuy(BaseModel):
         upload_to=u'category',
         verbose_name=u'Изображение',
     )
+    link = models.URLField(
+        max_length=255,
+        verbose_name=u'Ссылка',
+        help_text=u"""Ссылка в формате http://somedomain.ru/<br />Если необходимо """
+                  u"""поставить ссылку на локальный ресурс, то необходимо внести её """
+                  u"""в таком же формате.""",
+        null=True,
+        blank=True,
+    )
     preview = ImageSpecField(
         source='image',
         processors=[
-            ResizeToFill(
-                120, 170,
+            ResizeToFit(
+                177, 94,
                 upscale=False
-            )
+            ),
+            ResizeCanvas(177, 94)
         ]
     )
     order = models.PositiveIntegerField(

@@ -1,11 +1,118 @@
 {% load cache static compress flatblock_tags %}
 {% get_static_prefix as STATIC %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Это Лето :: {% block page-title %}{% endblock %}</title>
+    <meta charset="utf-8">
+    {% if not debug %}
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    {% endif %}
+    {% comment %}
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    {% endcomment %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% compress css %}
+    <link rel="stylesheet" href="{{STATIC}}css/master.css">
+    {% endcompress %}
+    {% compress css inline %}
+    <link rel="stylesheet" href="{{STATIC}}css/vendor/basic-slider.css">
+    {% endcompress %}
+    <!--[if lt IE 9]>
+      <link rel="stylesheet" href="{{STATIC}}css/ie8.css">
+    <![endif]-->
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="{{STATIC}}css/lteie9.css">
+    <![endif]-->
+    <!--[if lte IE 7]>
+    <link rel="stylesheet" href="{{STATIC}}css/lteie7.css">
+    <![endif]-->
+    <!--[if IE]>
+    <script src="{{STATIC}}js/html5-shiv.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div id="root" class="wrapper">
+      <header>
+        <div class="grid header-top">
+          <div class="col-9-16 social-icons">
+            {% plain_flatblock 'layout-social' %}
+          </div>
+          <div class="col-7-16 search">
+            <form action="">
+              <input type="text" placeholder="найти на сайте">
+              <button class="search-btn" type="submit"><i class="icon-search"></i></button></form>
+          </div>
+        </div>
+        <div class="header-{% block header-class %}common{% endblock %}">
+          <div class="grid">
+            <div class="col-4-16">
+              <a {% if not ismain %}href="/"{% endif %} class="logo"></a>
+            </div>
+            <div class="col-5-16 main-phone">
+                {% plain_flatblock 'layout-phones' %}
+            </div>
+            <div class="col-7-16">
+              {% plain_flatblock 'layout-internetshop' evaluated %}
+            </div>
+          </div>
+          <div class="grid">
+            <ul class="col-1-1 menu no-bullet inline text-center">
+                {% for item in menu %}
+                <li><a href="{{ item.path }}" {% if request.path == item.path %}class="active"{% endif %}>{{ item.title }}</a></li>
+                {% endfor %}
+            </ul>
+          </div>
+          {% block extra-head %}{% endblock %}
+        </div>
+      </header>
+      {% block content %}{% endblock %}
+      <div id="root_footer"></div>
+    </div>
 
-{% compress css %}
-{% endcompress %}
-
-{% compress js %}
-{% endcompress %}
-
-{% block content %}
-{% endblock %}
+    <div id="footer">
+      <div class="grid">
+        <hr class="wavy mt50">
+      </div>
+      <div class="grid pt50 pb50">
+        <div class="col-12-16 centered text-center partners-list">
+            {% for partner in partners %}
+                {% if partner.link %}<a href="{{ partner.link }}">{% endif %}<img src="{{ partner.preview.url }}" alt="" class="partners-list-logo" />{% if partner.link %}</a>{% endif %}
+            {% endfor %}
+        </div>
+      </div>
+      <footer>
+        <div class="grid">
+            <ul class="col-1-1 menu no-bullet inline text-center">
+                {% for item in menu %}
+                <li><a href="{{ item.path }}" {% if request.path == item.path %}class="active"{% endif %}>{{ item.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="grid">
+          <div class="col-4-16">
+            <a {% if not ismain %}href="/"{% endif %} class="logo"></a>
+          </div>
+          <div class="col-5-16 main-phone">
+            {% plain_flatblock 'layout-phones' %}
+          </div>
+          <div class="col-7-16">
+            <a href="http://advertrio.com" class="advertio-logo right mt15"></a>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    {% compress js %}
+      {% block footjs %}{% endblock %}
+    {% endcompress %}
+    <!--[if lte IE 7]>{% plain_flatblock 'layout-oldbrowsers' %}<![endif]-->
+    <!--[if lte IE 9]>
+      {% compress js %}
+      <script src="{{STATIC}}js/placeholder.js"></script>
+      {% endcompress %}
+    <![endif]-->
+  </body>
+{{counter_yandex}}{{counter_google}}
+</html>

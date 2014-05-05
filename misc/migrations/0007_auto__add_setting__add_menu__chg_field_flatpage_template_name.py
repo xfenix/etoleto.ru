@@ -44,14 +44,14 @@ class Migration(SchemaMigration):
         u'misc.aboutgalleries': {
             'Meta': {'ordering': "['order']", 'object_name': 'AboutGalleries'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'image': ('base.misc.ImagePreviewField', [], {'max_length': '100'}),
+            'image': ('base.utils.ImagePreviewField', [], {'max_length': '100'}),
             'order': ('django.db.models.fields.PositiveIntegerField', [], {}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         },
         u'misc.aboutgalleriesimages': {
             'Meta': {'ordering': "['order']", 'object_name': 'AboutGalleriesImages'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'image': ('base.misc.ImagePreviewField', [], {'max_length': '100'}),
+            'image': ('base.utils.ImagePreviewField', [], {'max_length': '100'}),
             'order': ('django.db.models.fields.PositiveIntegerField', [], {}),
             'parent': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['misc.AboutGalleries']"}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255'})
@@ -67,7 +67,7 @@ class Migration(SchemaMigration):
         u'misc.mainslider': {
             'Meta': {'ordering': "['order']", 'object_name': 'MainSlider'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'image': ('base.misc.ImagePreviewField', [], {'max_length': '100'}),
+            'image': ('base.utils.ImagePreviewField', [], {'max_length': '100'}),
             'link': ('django.db.models.fields.URLField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'order': ('django.db.models.fields.PositiveIntegerField', [], {}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255'})
@@ -83,7 +83,7 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Partners'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'link': ('django.db.models.fields.URLField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'logo': ('base.misc.ImagePreviewField', [], {'max_length': '100'}),
+            'logo': ('base.utils.ImagePreviewField', [], {'max_length': '100'}),
             'order': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         },

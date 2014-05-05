@@ -1,0 +1,45 @@
+/* BUTTONS */
+@include arrow($lightGreen, 28px, auto, 7px, btn-arrow) {
+  @extend %inline-block;
+  color: #fff;
+  font-style: italic;
+  font-size: 13px;
+  text-align: center;
+  padding: 0 28px;
+  text-decoration: none;
+  &.fixed {
+    width: 180px;
+    padding: 0;
+  }
+  &:hover {
+    background: $darkGreen;
+    @include transitions();
+    &:after {
+      border-left-color: $darkGreen;
+      @include transitions();
+    }
+  }
+}
+
+.buy-btn, a.buy-btn, .article a.buy-btn {
+  display: block;
+  width: 240px;
+  height: 72px;
+  line-height: 72px;
+  color: #fff;
+  text-transform: uppercase;
+  text-shadow: 0 1px 0 $darkGreen;
+  text-decoration: none;
+  background: url('../img/bg/buy-btn-bg.png') no-repeat;
+  &:hover {
+    text-decoration: underline;
+  }
+  .basket {
+    @extend %inline-block;
+    vertical-align: middle;
+    width: 50px;
+    height: 40px;
+    margin: 0 20px 3px;
+    background: url(../img/icons/basket.png) no-repeat;
+  }
+}

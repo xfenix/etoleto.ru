@@ -1,0 +1,124 @@
+/* ------- HEADER --------- */
+.header-top {
+  height: 60px;
+}
+
+.search {
+  margin-top: 15px;
+  position: relative;
+  input {
+    float: right;
+    padding: 7px;
+    width: 390px;
+    border: 1px solid #8dc63f;
+    font-size: 12px;
+    font-style: italic;
+  }
+  .search-btn {
+    border: none;
+    background: none;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 0;
+    padding: 6px 7px 7px 7px;
+  }
+}
+
+.social-icons {
+  font-size: 0;
+}
+
+[class^="icon-"] {
+  @extend %inline-block;
+  margin: 19px 7px 0 0;
+  width: 23px;
+  height: 23px;
+  background: url('../img/icons/icons-sprite.png') no-repeat;
+}
+
+.icon-fb{ background-position: 0 0; }
+.icon-search{
+  background-position: 0 -33px;
+  width: 17px;
+  height: 17px;
+  margin: 0;
+}
+.icon-odn{ background-position: 0 -60px; }
+.icon-tw{ background-position: 0 -93px; }
+.icon-vk{ background-position: 0 -126px; }
+
+/* Header on main page */
+.header-main {
+  height: 650px;
+  padding: 30px 0 0;
+  background: url('../img/bg/header-big-bg.png') no-repeat top center;
+}
+
+/* Header on common pages */
+.header-common {
+  height: 270px;
+  padding: 30px 0 0;
+  background: url('../img/bg/header-bg.png') no-repeat top center;
+}
+
+.logo {
+  display: block;
+  margin-top: 10px;
+  background: url(../img/logos/etoleto.png);
+  width: 180px;
+  height: 71px;
+}
+
+.main-phone {
+  margin-top: 3px;
+  a {
+    cursor: default;
+    color: #fff;
+    font-size: 30px;
+    line-height: 38px;
+    text-decoration: none;
+    display: block;
+  }
+}
+
+.shop-link-bg {
+  display: block;
+  position: relative;
+  float: right;
+  width: 390px;
+  * {
+    position: relative;
+    z-index: 1;
+  }
+  img {
+    float: left;
+    margin: -16px 0 0 25px;
+  }
+  @include arrow(#fff, 90px, 390px, 22px) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    &>div {
+      width: 300px;
+      height: 90px;
+      background: url('../img/bg/shop-link-sprite.png') no-repeat;
+    }
+  }
+  &:hover {
+    .arrow > div {
+      background-position: 0 -141px; width: 297px; height: 90px;
+    }
+  }
+}
+
+.shop-link {
+  color: $middleGreen;
+  font-size: 16px;
+  line-height: 20px;
+  text-transform: uppercase;
+  overflow: hidden;
+  padding: 25px;
+  display: block;
+}

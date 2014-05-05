@@ -5,6 +5,8 @@ from factory import fuzzy
 from misc import models
 
 
+""" Misc data factories for test purposes
+"""
 class FuzzyUrl(fuzzy.BaseFuzzyAttribute):
     factory_name = fuzzy.FuzzyText(length=100)
 

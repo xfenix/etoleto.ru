@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block page-title %}Главная{% endblock %}
+
+{% block header-class %}main{% endblock %}
+
+{% block extra-head %}
+<div class="grid">
+    <div class="col-1-1 slider" id="slider">
+        <ul class="bjqs">
+            {% for slide in slides %}
+            <li>
+                {% if slide.link %}<a href="{{ slide.link }}">{% endif %}
+                    <img src="{{ slide.preview.url }}" alt="" />
+                {% if slide.link %}</a>{% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="products">
+<div class="grid">
+  <div class="col-6-16"><hr class="border-top"></div>
+  <div class="col-4-16">
+    <h2 class="dark-green ml5">Наши продукты</h2>
+  </div>
+  <div class="col-6-16"><hr class="border-top right"></div>
+  <div class="clear"></div>
+</div>
+<div class="grid">
+  <div class="col-1-1 text-center">
+    <div class="border">
+      <a href="" class="item">
+        <img src="{{STATIC}}img/butter.png" alt="">
+        <span>Масло</span>
+      </a>
+
+      <a href="" class="item">
+        <img src="{{STATIC}}img/milk.png" alt="">
+        <span>Молоко</span>
+      </a>
+
+      <a href="" class="item">
+        <img src="{{STATIC}}img/sour_cream.png" alt="">
+        <span>Сметана</span>
+      </a>
+
+      <a href="" class="item">
+        <img src="{{STATIC}}img/cream.png" alt="">
+        <span>Сливки</span>
+      </a>
+
+      <a href="" class="item">
+        <img src="{{STATIC}}img/kefir.png" alt="">
+        <span>Кефир</span>
+      </a>
+
+      <a href="" class="item">
+        <img src="{{STATIC}}img/cheese.png" alt="">
+        <span>Творог</span>
+      </a>
+    </div>
+  </div>
+</div>
+</div>
+<div class="grid pt40">
+<section class="col-1-2">
+  <h2>Новости и акции</h2>
+  {% for one in news %}
+    {% include 'news/block.html' with object=one %}
+    <div class="clear"></div>
+  {% endfor %}
+  <a href="{% url 'news' %}" class="btn-arrow fixed">Все новости и акции</a>
+</section>
+<section class="col-1-2">
+  <h2>Рецепты</h2>
+  <article class="excerpt">
+    <a href="" class="excerpt-img">
+      <div class="img-border"></div>
+      <img src="{{STATIC}}img/article-cows.png" alt="">
+    </a>
+    <span class="info-text">12 сентября 2014</span>
+    <h3>Ароматное масло с руколой, лаймом и чесноком</h3>
+    <p>Лаймовое масло роскошно сочетается с рыбой. Даже самую обычную треску превращает в нечто!</p>
+  </article>
+  <div class="clear"></div>
+  <a href="" class="btn-arrow fixed">Все рецепты</a>
+</section>
+</div>
+{% endblock %}
+
+
+{% block footjs %}
+<script type="text/javascript" src="{{STATIC}}js/basic-slider.js"></script>
+<script>
+    jQuery(document).ready(function($) {
+      $('#slider').bjqs({
+        animtype      : 'slide',
+        height        : 310,
+        width         : 960,
+        responsive    : true,
+        randomstart   : false,
+        automatic     : true,
+        showcontrols  : false
+      });
+    });
+</script>
+{% endblock %}

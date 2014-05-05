@@ -1,0 +1,114 @@
+/* GALLERYS THEMING */
+
+// Slider overrides
+ol.bjqs-markers {
+  position: relative;
+  padding: 0;
+  margin: -10px 0 0 0;
+  z-index: 10;
+  li {
+    list-style-type: none;
+    a {
+      @extend %inline-block;
+      width: 20px;
+      height: 20px;
+      background: url('../img/icons/nav.png');
+    }
+    &.active-marker {
+      a {
+        background: url(../img/icons/nav-current.png);
+      }
+    }
+  }
+}
+
+// Product and photo galleries
+.gallery-content {
+  .gv_galleryWrap {
+    background: #fff;
+  }
+  .gv_filmstripWrap {
+    width: inherit !important;
+    left: 0px !important;
+  }
+}
+
+.product-gallery {
+  position: relative;
+  .pika-stage {
+    height: 440px !important;
+  }
+  .zoom-icon {
+    display: block;
+    width: 25px;
+    height: 29px;
+    background: url(../img/icons/zoom.png) no-repeat;
+    position: absolute;
+    left: 8px;
+    top: 405px;
+  }
+}
+
+.article-gallery {
+  .pika-stage {
+    height: 350px !important;
+  }
+}
+
+.gallery-preview {
+  position: relative;
+  display: block;
+  cursor: pointer;
+  &:hover .gallery-overlay {
+    @include opacity(0);
+    @include transitions();
+  }
+}
+
+.gallery-overlay, .gallery-name {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 270px;
+  height: 130px;
+}
+
+.gallery-name {
+  position: absolute;
+  color: #fff;
+  text-align: center;
+  top: 60px;
+  text-transform: uppercase;
+  font-size: 16px;
+  line-height: 16px;
+}
+
+.gallery-overlay {
+  display: block;
+  background: $lightGreen;
+  @include opacity(0.7);
+}
+
+%thumb-border {
+  position: relative;
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80px;
+    height: 80px;
+    border: 4px solid $lightGreen;
+  }
+}
+
+.pika-thumbs li.active {
+  @extend %thumb-border;
+}
+
+#fancybox-thumbs ul li.active {
+  a:after {
+    @extend %thumb-border;
+  }
+}

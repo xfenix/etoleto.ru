@@ -22,10 +22,6 @@ SUIT_CONFIG = {
     'SHOW_REQUIRED_ASTERISK': True,
     'MENU': (
         {
-            'label': u'Пользователи',
-            'app': 'auth',
-        },
-        {
             'label': u'Базовые разделы',
             'app': 'base',
             'icon': 'icon-globe'
@@ -35,12 +31,22 @@ SUIT_CONFIG = {
             'app': 'misc',
             'icon': 'icon-list-alt'
         },
+        {
+            'label': u'Пользователи',
+            'app': 'auth',
+        },
         '-',
         {
             'label': u'Файловый менеджер',
             'url': '/admin/filebrowser/browse/',
             'icon': 'icon-hdd',
         },
+        {
+            'label': u'Очистка кеша',
+            'url': '/admin/clear_cache/',
+            'icon': 'icon-trash clear-cache',
+            'blank': True
+        }
     )
 }
 
@@ -51,20 +57,20 @@ SITE_ID = 1
 DEBUG = True
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*', ]
 
 INSTALLED_APPS = (
+    # django suit
     'suit',
 
     # django
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
+    # 'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'django.contrib.sites',
-    # 'django.contrib.flatpages',
+    'django.contrib.humanize',
 
     # third party
     'compressor',
@@ -73,6 +79,7 @@ INSTALLED_APPS = (
     'flatblocks',
     'utilities',
     'filebrowser',
+    'django_ace',
 
     # site applications
     'base',
@@ -80,53 +87,71 @@ INSTALLED_APPS = (
 )
 
 FILEBROWSER_SUIT_TEMPLATE = True
+FILEBROWSER_DIRECTORY = ''
 
 MIDDLEWARE_CLASSES = (
-    # per site cache
+    # cache for the whole site
     'django.middleware.cache.UpdateCacheMiddleware',
-
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'base.minify.MinifyHTMLMiddleware',
-
-    # per site cache
+    # cache for the whole site
     'django.middleware.cache.FetchFromCacheMiddleware',
-
     'base.minify.MarkHTMLMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = TCP + (
     'django.core.context_processors.request',
+    'misc.context_processor.process',
 )
 TEMPLATE_DIRS = (
     os.path.join(CORE_PATH, 'templates'),
 )
+# cache templates in production
+if not DEBUG:
+    TEMPLATE_LOADERS = (
+        ('django.template.loaders.cached.Loader', (
+            'django.template.loaders.filesystem.Loader',
+            'django.template.loaders.app_directories.Loader',
+        )),
+    )
 
 ROOT_URLCONF = 'etoleto.urls'
 WSGI_APPLICATION = 'etoleto.wsgi.application'
 
+# less queries is better
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+SESSION_COOKIE_NAME = 'etoletocookie'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'etoleto',
-#         'USER': 'xfenix',
-#         'PASSWORD': '',
-#         'HOST': 'localhost',
-#         'PORT': '',
-#     }
-# }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'etoleto',
+            'USER': 'etoletouser',
+            # super hacker password, yo
+            # im so cool
+            # l33t $|>3|< !$ |<00|_ = leet speak is cool
+            # not cool, in fact very stupid
+            # but this is very strong password
+            # thanks to young people for their culture
+            # sometimes it's very useful
+            'PASSWORD': '$ec|_|re_$taff_0n|_y',
+            'HOST': 'localhost',
+            'PORT': '',
+        }
+    }
 
 LOGGING = {
     'version': 1,
@@ -187,14 +212,18 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder',
 )
+STATICFILES_DIRS = (
+    os.path.join(CORE_PATH, 'static'),
+)
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 STATIC_ROOT = os.path.join(CORE_PATH, 'collected_static')
 MEDIA_ROOT = os.path.join(CORE_PATH, 'media')
-MEDIA_URL = '/media/'
 
 # perfomance
 HTML_MINIFY = True
 # LxmlParser is the fastest available parser
+# but htmlparser doesnt seems very slower
 COMPRESS_PARSER = 'compressor.parser.HtmlParser'
 COMPRESS_CSS_FILTERS = (
     'compressor.filters.css_default.CssAbsoluteFilter',
@@ -202,9 +231,6 @@ COMPRESS_CSS_FILTERS = (
 )
 COMPRESS_JS_FILTERS = (
     'compressor.filters.jsmin.SlimItFilter',
-)
-COMPRESS_PRECOMPILERS = (
-    ('text/x-scss', 'sass --scss {infile} {outfile}'),
 )
 
 FLATPAGE_TPL_DIR = 'flatpages'

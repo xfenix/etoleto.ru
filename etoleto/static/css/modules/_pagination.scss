@@ -1,0 +1,19 @@
+.pagination {
+  padding: 10px 0 0;
+  a {
+    display: block;
+    text-align: center;
+    height: 60px;
+    line-height: 60px;
+    width: 60px;
+    color: $lightGreen;
+    text-decoration: none;
+    &.active, &.active:hover, &.active:active {
+      background: $lightGreen url('../img/wavy-line.png') repeat-x bottom left;
+      color: #fff;
+    }
+    &:hover, &:active {
+      background: url('../img/wavy-line.png') repeat-x bottom left;
+    }
+  }
+}

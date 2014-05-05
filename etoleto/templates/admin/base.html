@@ -1,13 +1,59 @@
-{% load admin_static %}{% load suit_tags %}{% load url from future %}<!DOCTYPE html>
+{% load admin_static compress %}{% load suit_tags %}{% load url from future %}<!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
 <head>
   <title>{% block title %}{{ title }} | {{ 'ADMIN_NAME'|suit_conf }}{% endblock %}</title>
   <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% endblock %}"/>
   <link rel="stylesheet" type="text/css" href="{% static 'suit/bootstrap/css/bootstrap.min.css' %}" media="all"/>
   <link rel="stylesheet" type="text/css" href="{% static 'suit/css/suit.css' %}" media="all">
+  <!-- my styles -->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.growl.css' %}" media="all">
+  <style>
+    #content {
+        position: relative;
+    }
+
+    .django-ace-toolbar,
+    .django-ace-widget,
+    .django-ace-editor-fullscreen {
+      width: 100% !important;
+    }
+
+    .django-ace-editor-fullscreen {
+        position: fixed !important;
+        top: 0px; left: 0px;
+        bottom: 0;
+        z-index: 1000;
+        height: 100%;
+    }
+  </style>
+  <!-- end -->
   {% block extrastyle %}{% endblock %}
   {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}"/>{% endif %}
   <script type="text/javascript">window.__admin_media_prefix__ = "{% filter escapejs %}{% static "admin/" %}{% endfilter %}";</script>
+  <script src="{% static 'suit/js/jquery-1.8.3.min.js' %}"></script>
+  <!-- my scripts -->
+  <script src="{% static 'js/jquery.growl.js' %}"></script>
+  <script type="text/javascript">
+    $(function() {
+      // cache clearing appendix
+      $('.clear-cache').parent().on(
+        'click',
+        function() {
+          $.get(
+            $(this).attr('href'),
+            function(data) {
+              if(data == 'ok')
+                $.growl.notice({ location: 'br', title: 'Уведомление', message: 'Кеш успешно очищен' });
+              else
+                $.growl.error({ location: 'br', title: 'Ошибка', message: 'Не удалось очистить кеш :(' });
+            }
+          );
+          return false;
+        }
+      );
+    });
+  </script>
+  <!-- end -->
   <script src="{% static 'suit/js/jquery-1.8.3.min.js' %}"></script>
   <script type="text/javascript">var Suit = { $: $.noConflict() }; if (!$) $ = Suit.$; </script>
   <script src="{% static 'suit/bootstrap/js/bootstrap.min.js' %}"></script>
@@ -176,14 +222,14 @@
     <div class="content">
       <div class="tools">
         {% block footer_links %}
-          <a href="/admin/filebrowser/browse/" target="_blank" class="icon"><i class="icon-folder-open"></i>Файловый менеджер</a>
+          <a href="mailto:support@advertrio.com" class="icon"><i class="icon-comment"></i>Напишите нам</a>, если у вас возникли вопросы или ошибки
         {% endblock %}
       </div>
 
       <div class="copyright">
         {% block copyright %}
-          Сайт разработан в <a href="http://advertio.com">Advertio</a><br />
-          &copy; 2014, django admin theme developed by <a href="http://djangosuit.com" target="_blank">DjangoSuit.com</a>
+          Сайт разработан в <a href="http://advertrio.com">Advertrio</a><br />
+          django framework, django suit
         {% endblock %}
       </div>
 

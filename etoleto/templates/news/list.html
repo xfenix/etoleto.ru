@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block page-title %}Новости{% endblock %}
+
+{% block content %}
+    <div class="grid">
+        <div class="col-1-1"><h1>Новости и акции</h1></div>
+    </div>
+    <div class="grid pb10">
+        {% for object in object_list %}
+            {% include 'news/block.html' with classes='col-1-2 overh' %}
+        {% endfor %}
+    </div>
+
+    {% if is_paginated %}
+    <div class="grid">
+        <div class="col-1-1 pagination">
+            <ul class="inline no-bullet">
+                {% for page in page_obj.paginator.page_range %}
+                    <li><a href="?page={{ page }}" {% if page_obj.number == page %}class="active"{% endif %}>{{ page }}</a></li>
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <li><a href="?page={{ page_obj.next_page_number }}">></a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}

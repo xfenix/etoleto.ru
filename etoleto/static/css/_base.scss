@@ -1,0 +1,112 @@
+@include declare-font-face('Din', 'fonts/din67');
+
+html, body {
+  font-family: 'Arial', 'Helvetica Neue', sans-serif;
+  color: $mainTextColor;
+}
+
+h1, h2, h3, .h1 {
+  font-family: 'Din', 'Tahoma', sans-serif;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+
+h1, .h1 {
+  font-size: 48px;
+  color: $lightGreen;
+  margin: 12px 0 26px;
+  .small-l-h {
+    line-height: 16px;
+  }
+}
+
+h2, .h2 {
+  font-size: 40px;
+  margin: 0 0 20px 0;
+  color: $lightGreen;
+  &.incut {
+    font-size: 27px;
+    line-height: 28px;
+  }
+}
+
+h3 {
+  font-size: 23px;
+  line-height: 23px;
+  color: $darkGreen;
+  margin: 0 0 15px 0;
+}
+
+h4 {
+  font-size: 16px;
+  line-height: 18px;
+  color: $darkGreen;
+  text-transform: uppercase;
+  font-weight: normal;
+  margin: 0;
+}
+
+h5 {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0 0 15px 0;
+}
+
+a {
+  color: $middleGreen;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+p {
+  color: $mainTextColor;
+  font-size: 16px;
+  line-height: 24px;
+  margin: 0 0 10px;
+}
+
+figure {
+  @extend %inline-block;
+  margin: 0;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.right {
+  float: right;
+}
+
+.left {
+  float: left;
+}
+
+.clear {
+  clear: both;
+}
+
+.overh {
+  overflow: hidden;
+}
+
+.middle {
+  @extend %inline-block;
+  vertical-align: middle;
+}
+
+.info-text {
+  color: $secondaryColor;
+  font-size: 11px;
+  font-style: italic;
+  vertical-align: top;
+}

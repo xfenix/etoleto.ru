@@ -1,0 +1,10 @@
+{% load humanize %}
+<article class="excerpt {{ classes }}">
+    <a href="{{ object.get_absolute_url }}" class="excerpt-img">
+        <div class="img-border"></div>
+        <img src="{{ object.preview.url }}" alt="" />
+    </a>
+    <span class="info-text">{{ object.date|naturalday:"j E Y" }}</span>
+    <h3><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></h3>
+    <p>{{ object.short_descr }}</p>
+</article>

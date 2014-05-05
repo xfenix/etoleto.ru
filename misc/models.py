@@ -9,9 +9,9 @@ from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit, ResizeToFill
 from flatblocks.models import FlatBlock
 from modeldict.models import ModelDict
+from cache_utils.decorators import cached
 
-from base.misc import ImagePreviewField
-from base.models import BaseModel
+from base.utils import ImagePreviewField, BaseModel
 
 
 class Setting(BaseModel):
@@ -75,15 +75,18 @@ class MainSlider(BaseModel):
     link = models.URLField(
         max_length=255,
         verbose_name=u'Ссылка со слайда',
+        help_text=u"""Ссылка в формате http://somedomain.ru/<br />Если необходимо """
+                  u"""поставить ссылку на локальный ресурс, то необходимо внести её """
+                  u"""в таком же формате""",
         null=True,
         blank=True,
     )
     # preview for news detail page
     # where gallery is
-    detail_preview = ImageSpecField(
+    preview = ImageSpecField(
         source='image',
         processors=[
-            ResizeToFill(
+            ResizeToFit(
                 width=960,
                 upscale=False
             )
@@ -226,14 +229,11 @@ class FlatBlockProxy(FlatBlock):
         verbose_name_plural = u'Блоки текста'
 
 
+@cached(86400)
 def get_avail_tpls():
     """ Scan flatpages directory in template folder
-    and then returns list of all available templates
+    then return list of all available templates
     """
-    key = 'flattemplates'
-    cached = cache.get(key)
-    if cached:
-        return cached
     try:
         tpl_dir = settings.TEMPLATE_DIRS[0]
     except IndexError:
@@ -251,7 +251,6 @@ def get_avail_tpls():
         choices.append(
             (os.path.split(tpl)[-1], os.path.split(tpl)[-1])
         )
-    cache.set(key, choices)
     return choices
 
 

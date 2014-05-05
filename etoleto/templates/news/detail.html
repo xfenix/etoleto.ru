@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block page-title %}Новости{% endblock %}
+
+{% block content %}
+  <div class="grid">
+    <div class="col-1-1">
+      <h1 class="mb10">{{ object.title }}</h1>
+      <h3 class="mb35">{{ object.date|naturalday:"j E Y" }}</h3>
+    </div>
+  </div>
+  <div class="grid article">
+    <div class="col-6-16 article-gallery">
+      <ul class="gallery jcarousel-skin-pika">
+        {% if object.images.all %}
+            {% for img in object.images.all %}
+            <li><a href="{{ img.image.url }}" rel="product"><img src="{{ img.preview.url }}"></a></li>
+            {% endfor %}
+        {% else %}
+            <li><a href="{{ object.image.url }}" rel="product"><img src="{{ object.preview.url }}"></a></li>
+        {% endif %}
+      </ul>
+    </div>
+    <div class="col-10-16 pl30">
+        {{ object.descr|safe }}
+
+        <div>
+            <a href="{% url 'news' %}" class="btn-arrow mb50 mt50">вернуться к списку новостей и акций</a>
+        </div>
+    </div>
+  </div>
+  <div class="grid">
+    <hr class="wavy mt50">
+  </div>
+  <div class="grid pt50">
+    {% for object in related %}
+        {% include 'news/block.html' with classes='col-1-2 overh' %}
+    {% endfor %}
+  </div>
+{% endblock %}
+
+{% block footjs %}
+<script type="text/javascript" src="{{ STATIC }}js/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" src="{{ STATIC }}js/jquery.fancybox-thumbs.js"></script>
+<script type="text/javascript" src="{{ STATIC }}js/jquery.jcarousel.min.js"></script>
+<script type="text/javascript" src="{{ STATIC }}js/jquery.pikachoose.js"></script>
+<script type="text/javascript" src="{{ STATIC }}js/product-init.js"></script>
+{% endblock %}
