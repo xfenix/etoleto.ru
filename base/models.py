@@ -149,7 +149,7 @@ class Recipe(BaseModel):
     )
 
     def get_absolute_url(self):
-        return reverse('recipes-detail', {'slug': self.slug})
+        return reverse('recipes-detail', kwargs={'slug': self.slug})
 
     def __unicode__(self):
         return unicode(self.title)
@@ -348,7 +348,7 @@ class Product(BaseModel):
     )
 
     def get_absolute_url(self):
-        return reverse('products-detail', {'slug': self.slug})
+        return reverse('products-detail', kwargs={'slug': self.slug})
 
     def __unicode__(self):
         return unicode(self.title)

@@ -23,6 +23,12 @@ def index(request):
         slides=MainSlider.objects.all(),
     )
 
+@render_to('search.html')
+def search(request):
+    return dict(
+        query=request.GET.get('query', '')
+    )
+
 
 """
 Redirect 404 and 500 to flatpages

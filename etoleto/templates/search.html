@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block page-title %}Поиск{% endblock %}
+
+{% block searchquery %}{{ query }}{% endblock %}
+
+{% block content %}
+<div class="grid">
+    <div class="col-1-1">
+        <h1>Поиск</h1>
+    </div>
+</div>
+<div class="grid pb10">
+    <div class="gcse-search" data-queryParameterName="query"></div>
+</div>
+{% endblock %}
+
+{% block footjs %}
+<script>
+  (function() {
+    var cx = '006378881180340533581:i4nfpixckvq';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+{% endblock %}

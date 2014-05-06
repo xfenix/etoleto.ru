@@ -28,6 +28,8 @@ urlpatterns = patterns('',
     url(r'^products/(?P<slug>.*?)/$', ProductDetail.as_view(), name='products-detail'),
     # where to buy
     url(r'^wheretobuy/$', WhereToBuyList.as_view(), name='wheretobuy'),
+    # search page
+    url(r'^search/$', 'base.views.search', name='search'),
 )
 
 handler404 = 'base.views.error_404'

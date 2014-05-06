@@ -72,12 +72,10 @@ class MainSlider(BaseModel):
         upload_to=u'mainslider',
         verbose_name=u'Изображение',
     )
-    link = models.URLField(
+    link = models.CharField(
         max_length=255,
         verbose_name=u'Ссылка со слайда',
-        help_text=u"""Ссылка в формате http://somedomain.ru/<br />Если необходимо """
-                  u"""поставить ссылку на локальный ресурс, то необходимо внести её """
-                  u"""в таком же формате""",
+        help_text=u"""Ссылка в формате "/какой-то/раздел/сайта/" """,
         null=True,
         blank=True,
     )

@@ -4,40 +4,89 @@
 {% block page-title %}Рецепты :: {{ object.title }}{% endblock %}
 
 {% block content %}
-  <div class="grid">
-    <div class="col-1-1">
-      <h1 class="mb10">{{ object.title }}</h1>
-      <h3 class="mb35">{{ object.date|naturalday:"j E Y" }}</h3>
-    </div>
+<div class="grid">
+  <div class="col-1-1">
+    <h1>{{ object.title }}</h1>
   </div>
-  <div class="grid article">
-    <div class="col-6-16 article-gallery">
-      <ul class="gallery jcarousel-skin-pika">
-        {% if object.images.all %}
-            {% for img in object.images.all %}
-            <li><a href="{{ img.image.url }}" rel="product"><img src="{{ img.preview.url }}"></a></li>
-            {% endfor %}
-        {% else %}
-            <li><a href="{{ object.image.url }}" rel="product"><img src="{{ object.preview.url }}"></a></li>
-        {% endif %}
-      </ul>
-    </div>
-    <div class="col-10-16 pl30">
-        {{ object.descr|safe }}
+</div>
+<div class="grid article">
+  <div class="col-6-16 article-gallery">
+    <ul class="gallery jcarousel-skin-pika">
+      {% if object.images.all %}
+          {% for img in object.images.all %}
+          <li><a href="{{ img.image.url }}" rel="product"><img src="{{ img.preview.url }}"></a></li>
+          {% endfor %}
+      {% else %}
+          <li><a href="{{ object.image.url }}" rel="product"><img src="{{ object.preview.url }}"></a></li>
+      {% endif %}
+    </ul>
+  </div>
+  <div class="col-10-16 pl30">
+    <h3>Ингредиенты</h3>
+    <p>на 10 порций:</p>
+    <ul class="dashed">
+      <li>пачка размягченного <a href="">Масла «Это Лето»</a> 1 штука</li>
+      <li>лайм 1 штука</li>
+      <li>горсть руколы 1 штука</li>
+      <li>крупный красный сладкий перец 1 штука</li>
+      <li>чеснок 4 зубчика</li>
+      <li>соль, перец 2 щепотки</li>
+    </ul>
 
-        <div>
-            <a href="{% url 'news' %}" class="btn-arrow mb50 mt50">вернуться к списку новостей и акций</a>
-        </div>
-    </div>
+    <h3 class="pt45">Инструкция</h3>
+    <p>Время приготовления 15 минут.</p>
+    <p>Руколу мелко рубим, можно блендером немного измельчить. Выжимаем сок
+      половины лайма. Смешиваем с 1/2 пачки мягкого масла. Перец и чеснок
+      запекаем в духовке, снимаем кожицу, пюрируем. Добавляем во вторую
+      половину масла.</p>
+    <p>Выкладываем на пленку, формируем "колбаски" и отправляем
+      в холодильник.</p>
+    <p>Подаем со свежим хлебом, добавляем к рису, картофельному пюре.
+      Время приготовления 15 минут.</p>
+    <p>Руколу мелко рубим, можно блендером немного измельчить. Выжимаем сок
+      половины лайма. Смешиваем с 1/2 пачки мягкого масла. Перец и чеснок
+      запекаем в духовке, снимаем кожицу, пюрируем. Добавляем во вторую
+      половину масла.</p>
+    <p>Выкладываем на пленку, формируем "колбаски" и отправляем
+      в холодильник.</p>
+    <p>Подаем со свежим хлебом, добавляем к рису, картофельному пюре.</p>
+
+    <h3 class="pt45">Примечание</h3>
+    <p>Лаймовое масло роскошно сочетается с рыбой! Даже самую обычную
+    треску превращает в нечто!</p>
+
+    <a href="" class="btn-arrow mt50 mb50">вернуться к списку рецептов</a>
   </div>
-  <div class="grid">
-    <hr class="wavy mt50">
-  </div>
-  <div class="grid pt50">
-    {% for object in related %}
-        {% include 'news/block.html' with classes='col-1-2 overh' %}
-    {% endfor %}
-  </div>
+</div>
+<div class="grid mt50">
+  <hr class="wavy">
+</div>
+<div class="grid pt50">
+  <section class="col-1-2">
+    <article class="excerpt">
+      <a href="" class="excerpt-img">
+        <div class="img-border"></div>
+        <img src="../img/article-cows.png" alt="">
+      </a>
+      <span class="info-text">12 сентября 2014</span>
+      <h3>Фермерский Фестиваль Slow Food 2014</h3>
+      <p>Экологическое Хозяйство «Спартак» примет участие в Фермерском Фестивале Slow Food 2012, который пройдет с 14-16 сентября 2012 года.</p>
+      <div class="clear"></div>
+    </article>
+  </section>
+  <section class="col-1-2">
+    <article class="excerpt">
+      <a href="" class="excerpt-img">
+        <div class="img-border"></div>
+        <img src="../img/article-cows.png" alt="">
+      </a>
+      <span class="info-text">12 сентября 2014</span>
+      <h3>Ароматное масло с руколой, лаймом и чесноком</h3>
+      <p>Лаймовое масло роскошно сочетается с рыбой. Даже самую обычную треску превращает в нечто!</p>
+      <div class="clear"></div>
+    </article>
+  </section>
+</div>
 {% endblock %}
 
 {% block footjs %}
