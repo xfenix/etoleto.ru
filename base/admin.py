@@ -46,7 +46,7 @@ class RecipeAdmin(BaseModelAdmin):
     fieldsets = [
         (None, {
             'classes': ('suit-tab suit-tab-general',),
-            'fields': ['title', 'slug', 'date', 'short_descr', 'instruction', 'note']
+            'fields': ['title', 'slug', 'date', 'short_descr', 'image', 'instruction', 'note']
         }),
         (None, {
             'classes': ('suit-tab suit-tab-ingr',),
@@ -63,7 +63,14 @@ class ProductCategoryAdmin(SortableBaseModelAdmin):
     list_display_links = list_display_over
 
 
+class ProductImagesInline(SortableTabularInline):
+    list_display = ('image', 'detail_preview', 'list_preview')
+    model = ProductImages
+    extra = 0
+
+
 class ProductAdmin(SortableBaseModelAdmin):
+    inlines = (ProductImagesInline, )
     list_display_over = ('category', 'title', 'weight', 'image')
     list_display = list_display_over
     list_display_links = list_display_over

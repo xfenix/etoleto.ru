@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load etoleto humanize %}
 
-{% block page-title %}Новости{% endblock %}
+{% block page-title %}Где купить{% endblock %}
 
 {% block content %}
 <div class="grid">
@@ -14,12 +14,12 @@
         {% if group.grouper == 0 %}
             <h3>в торговых сетях:</h3>
             <ul class="inline no-bullet shop-list">
-                {% for item in group.list %}
+                {% for item in group.list|dictsort:'order' %}
                 <li class="mr15">
-                    <a href="{% if item.link %}{{ item.link }}{% else %}{{ item.title|map_link }}{% endif %}">
+                    <a href="{% if item.link %}{{ item.link }}{% else %}{{ item.title|map_link }}{% endif %}" target="_blank">
                         <span class="shop-logo"><img src="{{ item.preview.url }}" alt="{{ item.title }}"></span>
                     </a>
-                    <a href="{% if item.link %}{{ item.link }}{% else %}{{ item.title|map_link }}{% endif %}" class="show-map">
+                    <a href="{% if item.link %}{{ item.link }}{% else %}{{ item.title|map_link }}{% endif %}" class="show-map" target="_blank">
                         <span class="pointer"></span>&nbsp;
                         <span class="border">показать на карте</span>
                     </a>
@@ -31,7 +31,7 @@
             <ul class="inline no-bullet shop-list shop-inet">
                 {% for item in group.list %}
                     <li class="mr15">
-                        {% if item.link %}<a href="{{ item.link }}">{% endif %}
+                        {% if item.link %}<a href="{{ item.link }}" target="_blank">{% endif %}
                             <span class="shop-logo"><img src="{{ item.preview.url }}" alt="{{ item.title }}" class="pb10"></span>
                         {% if item.link %}</a>{% endif %}
                     </li>

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block page-title %}Рецепт{% endblock %}
+
+{% block content %}
+<div class="grid">
+  <div class="col-1-1">
+    <h1>Рецепты</h1>
+  </div>
+</div>
+<div class="grid pb10">
+  {% for object in object_list %}
+    {% include 'news/block.html' with classes='col-1-2 overh' %}
+  {% endfor %}
+</div>
+{% endblock %}

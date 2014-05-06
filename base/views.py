@@ -6,6 +6,12 @@ from base.models import News, Recipe, Product, WhereToBuy
 from misc.models import MainSlider, custom_settings
 
 
+try:
+    page_size = int(custom_settings.get('PAGE_SIZE'))
+except (TypeError, ValueError):
+    page_size = 20
+
+
 """
 Plain old style views
 """
@@ -29,41 +35,52 @@ def error_500(request):
 
 
 """
-CBG views
+Class based generic views
 """
+# news
 class NewsList(ListView):
-    """ news list page
-    """
     model = News
     template_name = 'news/list.html'
     queryset = News.objects.prefetch_related('images')
-    paginate_by = 20
+    paginate_by = page_size
 
 
-class NewsDetailView(DetailView):
-    """ detail news page 
-    """
+class NewsDetail(DetailView):
     model = News
     template_name = 'news/detail.html'
 
     def get_context_data(self, **kwargs):
-        context = super(NewsDetailView, self).get_context_data(**kwargs)
+        context = super(NewsDetail, self).get_context_data(**kwargs)
         context['related'] = News.objects.exclude(pk=context['object'].pk)[:2]
         return context
 
 
+# products
 class ProductList(ListView):
-    """ news list page
-    """
     model = Product
     template_name = 'product/list.html'
-    queryset = News.objects.prefetch_related('images')
-    paginate_by = 20
+    paginate_by = page_size
 
 
+class ProductDetail(DetailView):
+    model = Product
+    template_name = 'product/detail.html'
+
+
+# recipes
+class RecipeList(ListView):
+    model = Recipe
+    template_name = 'recipe/list.html'
+    paginate_by = page_size
+
+
+class RecipeDetail(DetailView):
+    model = Recipe
+    template_name = 'recipe/detail.html'
+
+
+# where to buy
 class WhereToBuyList(ListView):
-    """ news list page
-    """
     # regroup tag works ONLY with sorted list
     queryset = WhereToBuy.objects.order_by('pos_type')
     template_name = 'wheretobuy/list.html'

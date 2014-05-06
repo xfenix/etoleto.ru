@@ -1,14 +1,6 @@
 {% extends 'base.html' %}
+{% load etoleto %}
 
 {% block content %}
-<div class="grid">
-    <div class="col-1-1">
-        <h1>{{ flatpage.title }}</h1>
-    </div>
-</div>
-<div class="grid">
-    <div class="col-1-1">
-        {{ flatpage.content }}
-    </div>
-</div>
+    {% eval flatpage.content %}
 {% endblock %}

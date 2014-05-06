@@ -2,8 +2,9 @@ from django.conf.urls import patterns, include, url
 from django.conf import settings
 from django.contrib import admin
 
-from base.views import (NewsList, NewsDetailView, ProductList,
-                        WhereToBuyList, )
+from base.views import (NewsList, NewsDetail, ProductList,
+                        WhereToBuyList, ProductDetail, RecipeList,
+                        RecipeDetail)
 
 
 admin.autodiscover()
@@ -18,13 +19,13 @@ urlpatterns = patterns('',
     url(r'^$', 'base.views.index', name='index'),
     # news
     url(r'^news/$', NewsList.as_view(), name='news'),
-    url(r'^news/(?P<pk>[0-9]+)/$', NewsDetailView.as_view(), name='news-detail'),
+    url(r'^news/(?P<pk>[0-9]+)/$', NewsDetail.as_view(), name='news-detail'),
     # recipes
-    # url(r'^recipes/$', '', name='recipes'),
-    # url(r'^recipes/(?P<slug>.*?)/$', '', name='recipes-detail'),
+    url(r'^recipes/$', RecipeList.as_view(), name='recipes'),
+    url(r'^recipes/(?P<slug>.*?)/$', RecipeDetail.as_view(), name='recipes-detail'),
     # products
-    # url(r'^products/$', '', name='products'),
-    # url(r'^products/(?P<slug>.*?)/$', '', name='products-detail'),
+    url(r'^products/$', ProductList.as_view(), name='products'),
+    url(r'^products/(?P<slug>.*?)/$', ProductDetail.as_view(), name='products-detail'),
     # where to buy
     url(r'^wheretobuy/$', WhereToBuyList.as_view(), name='wheretobuy'),
 )

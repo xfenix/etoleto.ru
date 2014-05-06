@@ -118,6 +118,19 @@ class Recipe(BaseModel):
         blank=True,
         help_text=u"""Краткий текст для главной страницы и страницы рецептов""",
     )
+    image = ImagePreviewField(
+        upload_to=u'news',
+        verbose_name=u'Изображение',
+    )
+    # preview for recipe list page
+    # and main page
+    preview = ImageSpecField(
+        source='image',
+        processors=[
+            ResizeToFit(180, 180, upscale=False),
+            ResizeCanvas(180, 180)
+        ]
+    )
     ingredients_prefix = models.TextField(
         verbose_name=u'Краткий текст перед ингредиентами',
         null=True,

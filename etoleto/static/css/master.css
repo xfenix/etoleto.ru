@@ -2237,6 +2237,9 @@ ol.bjqs-markers {
     ol.bjqs-markers li.active-marker a {
       background: url(../img/icons/nav-current.png); }
 
+.gallery {
+  list-style-type: none; }
+
 .gallery-content .gv_galleryWrap {
   background: #fff; }
 .gallery-content .gv_filmstripWrap {

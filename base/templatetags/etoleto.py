@@ -45,4 +45,3 @@ def map_link(value):
         return link % dict(shop=urlquote(value))
     except:
         return ''
-    # return urlencode(link % dict(shop=value))
