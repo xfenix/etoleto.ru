@@ -1,0 +1,11 @@
+<div class="col-6-16 product-gallery">
+    <div class="product-gallery-big">
+        <a href="#"><img src="{{ object.images.all.0.preview_big.url }}" class="product-gallery-big-image" alt="" /></a>
+    </div>
+    <ul class="product-gallery-tumbs">
+        {% for img in object.images.all %}
+        <li class="product-gallery-tumbs-line">
+            <a href="{{ img.preview_big.url }}" class="product-gallery-tumbs-link {% if forloop.first %}active{% endif %}" data-origin="{{ img.image.url }}" data-index="{{ forloop.counter0 }}"><img src="{{ img.preview.url }}" class="product-gallery-tumbs-img" alt=""></a>
+        {% endfor %}
+    </ul>
+</div>

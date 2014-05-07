@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.conf import settings
 from django.contrib import admin
+from django.views.generic import RedirectView
 
 from base.views import (NewsList, NewsDetail, ProductList,
                         WhereToBuyList, ProductDetail, RecipeList,
@@ -25,6 +26,8 @@ urlpatterns = patterns('',
     url(r'^recipes/(?P<slug>.*?)/$', RecipeDetail.as_view(), name='recipes-detail'),
     # products
     url(r'^products/$', ProductList.as_view(), name='products'),
+    url(r'^products/category/$', RedirectView.as_view(url='/products/')),
+    url(r'^products/category/(?P<slug>.*?)/$', ProductList.as_view(), name='products-category'),
     url(r'^products/(?P<slug>.*?)/$', ProductDetail.as_view(), name='products-detail'),
     # where to buy
     url(r'^wheretobuy/$', WhereToBuyList.as_view(), name='wheretobuy'),

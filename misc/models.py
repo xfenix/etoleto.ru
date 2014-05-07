@@ -114,13 +114,11 @@ class AboutGalleries(BaseModel):
         upload_to=u'aboutgal',
         verbose_name=u'Превью',
     )
-    # preview for news detail page
-    # where gallery is
     preview = ImageSpecField(
         source='image',
         processors=[
             ResizeToFill(
-                width=270,
+                width=270, height=130,
                 upscale=False
             )
         ]
@@ -143,7 +141,8 @@ class AboutGalleriesImages(BaseModel):
     """
     parent = models.ForeignKey(
         AboutGalleries,
-        verbose_name=u'Галерея'
+        verbose_name=u'Галерея',
+        related_name='images'
     )
     title = models.CharField(
         max_length=255,
@@ -156,8 +155,6 @@ class AboutGalleriesImages(BaseModel):
     order = models.PositiveIntegerField(
         verbose_name=u'Сортировка',
     )
-    # preview for news detail page
-    # where gallery is
     preview = ImageSpecField(
         source='image',
         processors=[

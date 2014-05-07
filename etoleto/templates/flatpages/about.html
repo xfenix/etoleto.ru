@@ -8,57 +8,21 @@
     </div>
     <div class="col-5-16 pl30">
       <h1>фотогалерея</h1>
+      {% about_gals %}
       <div class="gallery-content">
         <ul class="no-bullet">
+          {% for gal in about_gals %}
           <li class="mb20">
-            <a href="{{ STATIC }}img/slides/_slide1.png" class="fancybox gallery-preview" rel="farm" title="Sample title 1">
+            <a href="{{ gal.image.url }}" class="fancybox gallery-preview" rel="gal{{ gal.id }}" title="{{ gal.title }}">
               <div href="" class="gallery-overlay"></div>
-              <p class="gallery-name">Ферма</p>
-              <img src="{{ STATIC }}img/gallery/thumbnails/farm.png" />
+              <p class="gallery-name">{{ gal.title }}</p>
+              <img src="{{ gal.preview.url }}" />
             </a>
-            <a href="{{ STATIC }}img/slides/_slide2.png" class="fancybox" rel="farm" title="Sample title 1"></a>
-            <a href="{{ STATIC }}img/slides/_slide3.png" class="fancybox" rel="farm" title="Sample title 1"></a>
+            {% for img in gal.images.all %}
+            <a href="{{ img.image.url }}" class="fancybox" rel="gal{{ gal.id }}" title="{{ img.title }}"></a>
+            {% endfor %}
           </li>
-          <li class="mb20">
-            <a href="{{ STATIC }}img/gallery/thumbnails/prod.png" rel="prod" class="fancybox gallery-preview">
-            <div href="" class="gallery-overlay"></div>
-            <p class="gallery-name">Производство</p>
-            <img src="{{ STATIC }}img/gallery/thumbnails/prod.png" alt=""></a>
-            <a href="{{ STATIC }}img/gallery/thumbnails/prod.png" class="fancybox" rel="prod" title="Sample title 1"></a>
-            <a href="{{ STATIC }}img/gallery/thumbnails/cows.png" class="fancybox" rel="prod" title="Sample title 1"></a>
-          </li>
-          <li class="mb20">
-            <a href="{{ STATIC }}img/gallery/thumbnails/cows.png" rel="cows" class="fancybox gallery-preview">
-            <div href="" class="gallery-overlay"></div>
-            <p class="gallery-name">Буренки</p>
-            <img src="{{ STATIC }}img/gallery/thumbnails/cows.png" alt=""></a>
-            <a href="{{ STATIC }}img/gallery/thumbnails/prod.png" class="fancybox" rel="cows" title="Sample title 1"></a>
-            <a href="{{ STATIC }}img/gallery/thumbnails/cows.png" class="fancybox" rel="cows" title="Sample title 1"></a>
-          </li>
-          <li class="mb20">
-            <a href="{{ STATIC }}img/gallery/thumbnails/teritory.png" rel="teritory" class="fancybox gallery-preview">
-            <div href="" class="gallery-overlay"></div>
-            <p class="gallery-name">Наши просторы</p>
-            <img src="{{ STATIC }}img/gallery/thumbnails/teritory.png" alt=""></a>
-            <a href="{{ STATIC }}img/gallery/thumbnails/prod.png" class="fancybox" rel="teritory" title="Sample title 1"></a>
-            <a href="{{ STATIC }}img/gallery/thumbnails/cows.png" class="fancybox" rel="teritory" title="Sample title 1"></a>
-          </li>
-          <li class="mb20">
-            <a href="{{ STATIC }}img/gallery/thumbnails/plant.png" rel="plant" class="fancybox gallery-preview">
-            <div href="" class="gallery-overlay"></div>
-            <p class="gallery-name">Овощеводство</p>
-            <img src="{{ STATIC }}img/gallery/thumbnails/plant.png" alt=""></a>
-            <a href="{{ STATIC }}img/gallery/thumbnails/prod.png" class="fancybox" rel="plant" title="Sample title 1"></a>
-            <a href="{{ STATIC }}img/gallery/thumbnails/cows.png" class="fancybox" rel="plant" title="Sample title 1"></a>
-          </li>
-          <li class="mb20">
-            <a href="{{ STATIC }}img/gallery/thumbnails/products.png" rel="product" class="fancybox gallery-preview">
-            <div href="" class="gallery-overlay"></div>
-            <p class="gallery-name">Продукция</p>
-            <img src="{{ STATIC }}img/gallery/thumbnails/products.png" alt=""></a>
-            <a href="{{ STATIC }}img/gallery/thumbnails/prod.png" class="fancybox" rel="product" title="Sample title 1"></a>
-            <a href="{{ STATIC }}img/gallery/thumbnails/cows.png" class="fancybox" rel="product" title="Sample title 1"></a>
-          </li>
+          {% endfor %}
         </ul>
       </div>
     </div>
@@ -69,20 +33,20 @@
 <script type="text/javascript" src="{{ STATIC }}js/jquery.fancybox.pack.js"></script>
 <script type="text/javascript" src="{{ STATIC }}js/jquery.fancybox-thumbs.js"></script>
 <script type="text/javascript">
-  $(document).ready(function(){
+$(document).ready(function(){
     $(".fancybox").fancybox({
-      prevEffect  : 'none',
-      nextEffect  : 'none',
-      helpers : {
-        title : {
-          type: 'outside'
-        },
-        thumbs  : {
-          width : 80,
-          height  : 80
+        prevEffect: 'none',
+        nextEffect: 'none',
+        helpers: {
+            title: {
+                type: 'outside'
+            },
+            thumbs: {
+                width: 80,
+                height: 80
+            }
         }
-      }
     });
-  });
+});
 </script>
 {% endblock %}

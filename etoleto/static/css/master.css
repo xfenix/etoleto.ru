@@ -2277,13 +2277,15 @@ ol.bjqs-markers {
     -moz-transition: all 0.2s ease;
     -o-transition: all 0.2s ease;
     transition: all 0.2s ease; }
+  .gallery-preview img {
+    display: block; }
 
 .gallery-overlay, .gallery-name {
   position: absolute;
   top: 0;
   left: 0;
-  width: 270px;
-  height: 130px; }
+  bottom: 0;
+  right: 0; }
 
 .gallery-name {
   position: absolute;

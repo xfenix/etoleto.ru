@@ -11,17 +11,7 @@
 </div>
 
 <div class="grid article">
-  <div class="col-6-16 product-gallery">
-    <div class="product-gallery-big">
-        <a href="#"><img src="{{ object.images.all.0.preview_big.url }}" class="product-gallery-big-image" alt="" /></a>
-    </div>
-    <ul class="product-gallery-tumbs">
-        {% for img in object.images.all %}
-        <li class="product-gallery-tumbs-line">
-            <a href="{{ img.preview_big.url }}" class="product-gallery-tumbs-link {% if forloop.first %}active{% endif %}" data-origin="{{ img.image.url }}"><img src="{{ img.preview.url }}" class="product-gallery-tumbs-img" alt=""></a>
-        {% endfor %}
-    </ul>
-  </div>
+  {% include 'include/gallery.html' %}
   <div class="col-10-16 pl30">
     <div>{{ object.short_descr|safe }}</div>
 
@@ -81,31 +71,5 @@
 {% endblock %}
 
 {% block footjs %}
-<script type="text/javascript" src="{{ STATIC }}js/jquery.fancybox.pack.js"></script>
-<script type="text/javascript" src="{{ STATIC }}js/jquery.fancybox-thumbs.js"></script>
-<script>
-$(function() {
-    var gallery = $('.product-gallery'),
-        bigImage = gallery.find('.product-gallery-big-image'),
-        bigImageLink = bigImage.parent('a'),
-        tumbs = gallery.find('.product-gallery-tumbs-link'),
-        activeClass = 'active',
-        self;
-
-    console.log(tumbs);
-
-    tumbs.on(
-        'click',
-        function() {
-            self = $(this);
-            tumbs.removeClass(activeClass);
-            self.addClass(activeClass);
-            bigImage.attr('src', self.attr('href'));
-            return false;
-        }
-    );
-
-    bigImageLink.fancybox();
-});
-</script>
+    {% include 'include/galleryjs.html' %}
 {% endblock %}

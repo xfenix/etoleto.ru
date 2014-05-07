@@ -67,14 +67,17 @@ ol.bjqs-markers {
     @include opacity(0);
     @include transitions();
   }
+  & img {
+    display: block;
+  }
 }
 
 .gallery-overlay, .gallery-name {
   position: absolute;
   top: 0;
   left: 0;
-  width: 270px;
-  height: 130px;
+  bottom: 0;
+  right: 0;
 }
 
 .gallery-name {

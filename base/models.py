@@ -264,6 +264,9 @@ class ProductCategory(BaseModel):
         default=0,
     )
 
+    def get_absolute_url(self):
+        return reverse('products-category', kwargs={'slug': self.slug})
+
     def __unicode__(self):
         return unicode(self.title)
 

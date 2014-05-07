@@ -1,7 +1,7 @@
 from django import template
 from django.utils.http import urlquote
 
-from misc.models import custom_settings
+from misc.models import custom_settings, AboutGalleries
 
 
 register = template.Library()
@@ -45,3 +45,15 @@ def map_link(value):
         return link % dict(shop=urlquote(value))
     except:
         return ''
+
+
+# about gallery loader
+class GalleryNode(template.Node):
+    def render(self, context):
+        context['about_gals'] = AboutGalleries.objects.prefetch_related('images')
+        return ''
+
+
+@register.tag
+def about_gals(parser, token):
+    return GalleryNode()

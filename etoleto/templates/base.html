@@ -2,8 +2,10 @@
 {% get_static_prefix as STATIC %}
 <!DOCTYPE html>
 {% comment %}
-Я постарался сделать хороший бекенд, но с вёрсткой, конечно, подкачал - положился на фрилансера.
-Извините.
+Я постарался сделать хороший бекенд, но с вёрсткой, конечно, мы подкачали и положились
+на услуги фрилансера.
+И вышло что вышло. Нет, это не ужас и, наверняка, принимающие люди будут вполне довольны, но 
+с моей точки зрения - это очень плохая вёрстка.
 {% endcomment %}
 <html>
   <head>
@@ -115,11 +117,18 @@
     {% compress js %}
       {% block footjs %}{% endblock %}
     {% endcompress %}
-    <!--[if lte IE 7]>{% plain_flatblock 'layout-oldbrowsers' %}<![endif]-->
     <!--[if lte IE 9]>
         {% compress js inline %}
         <script src="{{STATIC}}js/placeholder.js"></script>
         {% endcompress %}
+    <![endif]-->
+    <!--[if lte IE 7]>
+    <div class="old-browsers">
+      {% plain_flatblock 'layout-oldbrowsers' %}
+      <div class="old-browsers-iwanttosee">
+        <a href="javascript:void($('.old-browsers').hide())">Закрыть уведомление</a>
+      </div>
+    </div>
     <![endif]-->
   </body>
 {{counter_yandex}}{{counter_google}}

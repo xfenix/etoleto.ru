@@ -1,8 +1,10 @@
+# -*- coding: utf-8 -*-
 from django.views.generic import ListView, DetailView
 from django.shortcuts import redirect
+from django.http import Http404
 from annoying.decorators import render_to
 
-from base.models import News, Recipe, Product, WhereToBuy
+from base.models import News, Recipe, Product, WhereToBuy, ProductCategory
 from misc.models import MainSlider, custom_settings
 
 
@@ -21,6 +23,7 @@ def index(request):
         news=News.objects.all()[:1],
         recipes=Recipe.objects.all()[:1],
         slides=MainSlider.objects.all(),
+        categories=ProductCategory.objects.all()[:6],
     )
 
 @render_to('search.html')
@@ -54,7 +57,6 @@ class RelatedDetailView(DetailView):
 class NewsList(ListView):
     model = News
     template_name = 'news/list.html'
-    queryset = News.objects.prefetch_related('images')
     paginate_by = page_size
 
 
@@ -68,6 +70,29 @@ class ProductList(ListView):
     model = Product
     template_name = 'product/list.html'
     paginate_by = page_size
+    error_text = u'Нет указанной категории'
+
+    def get_queryset(self):
+        qset = super(ProductList, self).get_queryset()
+        # logic for categories
+        # serving urls like /products/category/slug/
+        if 'slug' in self.kwargs:
+            self.category = self.kwargs['slug']
+            qset = qset.filter(category__slug=self.kwargs['slug'])
+            if not qset:
+                raise Http404(self.error_text)
+        return qset
+
+    def get_context_data(self, **kwargs):
+        context = super(ProductList, self).get_context_data(**kwargs)
+        category = None
+        if hasattr(self, 'category'):
+            try:
+                category = ProductCategory.objects.get(slug=self.category)
+            except ProductCategory.DoesNotExist:
+                raise Http404(self.error_text)
+        context['category'] = category
+        return context
 
 
 class ProductDetail(DetailView):

@@ -6,7 +6,7 @@
 {% block content %}
 <div class="grid">
     <div class="col-1-1">
-        <h1>продукция</h1>
+        <h1>продукция{% if category %}: {{ category }}{% endif %}</h1>
     </div>
 </div>
 <div class="grid grid-pad production">

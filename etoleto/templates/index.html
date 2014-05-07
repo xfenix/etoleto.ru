@@ -38,6 +38,13 @@
 <div class="grid">
   <div class="col-1-1 text-center">
     <div class="border">
+      {% for item in categories %}
+      <a href="{{ item.get_absolute_url }}" class="item">
+        <img src="{{ item.preview.url }}" alt="">
+        <span>{{ item.title }}</span>
+      </a>
+      {% endfor %}
+      {% comment %}
       <a href="" class="item">
         <img src="{{STATIC}}img/butter.png" alt="">
         <span>Масло</span>
@@ -67,6 +74,7 @@
         <img src="{{STATIC}}img/cheese.png" alt="">
         <span>Творог</span>
       </a>
+      {% endcomment %}
     </div>
   </div>
 </div>
@@ -82,17 +90,11 @@
 </section>
 <section class="col-1-2">
   <h2>Рецепты</h2>
-  <article class="excerpt">
-    <a href="" class="excerpt-img">
-      <div class="img-border"></div>
-      <img src="{{STATIC}}img/article-cows.png" alt="">
-    </a>
-    <span class="info-text">12 сентября 2014</span>
-    <h3>Ароматное масло с руколой, лаймом и чесноком</h3>
-    <p>Лаймовое масло роскошно сочетается с рыбой. Даже самую обычную треску превращает в нечто!</p>
-  </article>
-  <div class="clear"></div>
-  <a href="" class="btn-arrow fixed">Все рецепты</a>
+  {% for one in recipes %}
+    {% include 'news/block.html' with object=one %}
+    <div class="clear"></div>
+  {% endfor %}
+  <a href="{% url 'recipes' %}" class="btn-arrow fixed">Все рецепты</a>
 </section>
 </div>
 {% endblock %}

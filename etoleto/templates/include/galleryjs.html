@@ -1,0 +1,8 @@
+<script type="text/javascript" src="{{ STATIC }}js/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" src="{{ STATIC }}js/jquery.fancybox-thumbs.js"></script>
+<script type="text/javascript" src="{{ STATIC }}js/gallery.js"></script>
+<script>
+window.galleryJson = [
+    {% for img in object.images.all %}{href: "{{ img.image.url }}", title: "{{ img.title }}"},{% endfor %}
+]
+</script>
