@@ -165,6 +165,7 @@ class RecipeIngredients(BaseModel):
     """ 
     parent = models.ForeignKey(
         Recipe,
+        related_name='ingridients',
         verbose_name=u'Рецепт'
     )
     title = models.TextField(
@@ -176,7 +177,7 @@ class RecipeIngredients(BaseModel):
     )
 
     def __unicode__(self):
-        return u"%s" % self.title
+        return u"%s" % self.title[:100]
 
     class Meta:
         ordering = ['-order']
@@ -189,7 +190,7 @@ class RecipeImages(BaseModel):
     """
     parent = models.ForeignKey(
         Recipe,
-        related_name='recipeimages',
+        related_name='images',
         verbose_name=u'Рецепт'
     )
     image = ImagePreviewField(
@@ -327,19 +328,24 @@ class Product(BaseModel):
         null=True,
         blank=True
     )
+    recipes = models.ManyToManyField(
+        Recipe,
+        verbose_name=u'Блюда с этим продуктом',
+    )
     image = ImagePreviewField(
         upload_to=u'productlist',
         verbose_name=u'Изображение',
     )
     # preview for news detail page
     # where gallery is
-    list_preview = ImageSpecField(
+    preview = ImageSpecField(
         source='image',
         processors=[
-            ResizeToFill(
-                140, 190,
+            ResizeToFit(
+                140, 140,
                 upscale=False
-            )
+            ),
+            ResizeCanvas(140, 140)
         ]
     )
     order = models.PositiveIntegerField(
@@ -364,16 +370,14 @@ class ProductImages(BaseModel):
     """
     parent = models.ForeignKey(
         Product,
-        related_name='productimages',
+        related_name='images',
         verbose_name=u'Продукт'
     )
     image = ImagePreviewField(
         upload_to=u'product',
         verbose_name=u'Изображение',
     )
-    # preview for news detail page
-    # where gallery is
-    detail_preview = ImageSpecField(
+    preview = ImageSpecField(
         source='image',
         processors=[
             ResizeToFill(
@@ -382,15 +386,14 @@ class ProductImages(BaseModel):
             )
         ]
     )
-    # preview for news list page
-    # and main page
-    list_preview = ImageSpecField(
+    preview_big = ImageSpecField(
         source='image',
         processors=[
-            ResizeToFill(
-                190, 180,
+            SmartResize(
+                360, 400,
                 upscale=False
-            )
+            ),
+            ResizeCanvas(360, 400)
         ]
     )
     order = models.PositiveIntegerField(

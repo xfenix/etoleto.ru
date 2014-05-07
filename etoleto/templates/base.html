@@ -1,6 +1,10 @@
 {% load cache static compress flatblock_tags %}
 {% get_static_prefix as STATIC %}
 <!DOCTYPE html>
+{% comment %}
+Я постарался сделать хороший бекенд, но с вёрсткой, конечно, подкачал - положился на фрилансера.
+Извините.
+{% endcomment %}
 <html>
   <head>
     <title>Это Лето :: {% block page-title %}{% endblock %}</title>

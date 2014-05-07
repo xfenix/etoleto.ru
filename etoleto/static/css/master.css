@@ -15,7 +15,7 @@
   border-color: rgba(136, 183, 213, 0); }
 
 /* ================= Placeholders ====================== */
-figure, .middle, .products .item, .shop-list .show-map .pointer, [class^="icon-"], ul.inline li, .decorative .text, .circle, .btn-arrow, .buy-btn .basket, a.buy-btn .basket, .article a.buy-btn .basket, ol.bjqs-markers li a {
+figure, .middle, .products .item, .shop-list .show-map .pointer, [class^="icon-"], ul.inline li, .decorative .text, .circle, .btn-arrow, .buy-btn .basket, a.buy-btn .basket, .article a.buy-btn .basket, ol.bjqs-markers li a, .product-gallery-tumbs-line {
   display: inline-block;
   zoom: 1;
   *display: inline; }
@@ -1565,6 +1565,9 @@ footer {
   width: 50px;
   height: 57px; }
 
+.hotfix .excerpt-img {
+  margin-bottom: 0; }
+
 /* ------- HEADER --------- */
 .header-top {
   height: 60px; }
@@ -2248,8 +2251,6 @@ ol.bjqs-markers {
 
 .product-gallery {
   position: relative; }
-  .product-gallery .pika-stage {
-    height: 440px !important; }
   .product-gallery .zoom-icon {
     display: block;
     width: 25px;
@@ -2313,6 +2314,40 @@ ol.bjqs-markers {
     width: 80px;
     height: 80px;
     border: 4px solid #8dc63f; }
+
+.product-gallery-big {
+  margin-bottom: 12px;
+  position: relative; }
+  .product-gallery-big:after {
+    display: block;
+    content: '';
+    width: 25px;
+    height: 29px;
+    background: url(../img/icons/zoom.png) no-repeat;
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    z-index: 100; }
+.product-gallery-tumbs {
+  list-style-type: none;
+  margin-left: -12px; }
+  .product-gallery-tumbs-line {
+    margin-left: 12px;
+    margin-bottom: 12px;
+    height: 81px;
+    width: 81px; }
+  .product-gallery-tumbs-link {
+    display: block;
+    position: relative; }
+    .product-gallery-tumbs-link.active:after, .product-gallery-tumbs-link:hover:after {
+      display: block;
+      border: 4px solid #8dc63f;
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0; }
 
 .gsc-control-cse {
   padding: 0 !important; }

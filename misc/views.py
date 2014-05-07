@@ -18,14 +18,7 @@ logger = getLogger( __name__ )
 
 
 def flatpage(request, url):
-    """ Public interface to the flat page view.
-
-    Models: `flatpages.flatpages`
-    Templates: Uses the template defined by the ``template_name`` field,
-        or :template:`flatpages/default.html` if template_name is not defined.
-    Context:
-        flatpage
-            `flatpages.flatpages` object
+    """ Rewrited version of django flatpage view
     """
     if not url.startswith('/'):
         url = '/' + url

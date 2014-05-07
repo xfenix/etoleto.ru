@@ -253,7 +253,7 @@ def get_avail_tpls():
 
 
 class FlatPage(models.Model):
-    """ Custom flatPage
+    """ Custom flatpage
     rewrite of https://github.com/django/django/blob/master/django/contrib/flatpages/
     """
     url = models.CharField(

@@ -1,49 +1,111 @@
 {% extends 'base.html' %}
-{% load humanize %}
+{% load etoleto humanize flatblock_tags %}
 
 {% block page-title %}Продукция :: {{ object.title }}{% endblock %}
 
 {% block content %}
-  <div class="grid">
+<div class="grid">
     <div class="col-1-1">
-      <h1 class="mb10">{{ object.title }}</h1>
-      <h3 class="mb35">{{ object.date|naturalday:"j E Y" }}</h3>
+        <h1>{{ object.title }}</h1>
     </div>
-  </div>
-  <div class="grid article">
-    <div class="col-6-16 article-gallery">
-      <ul class="gallery jcarousel-skin-pika">
-        {% if object.images.all %}
-            {% for img in object.images.all %}
-            <li><a href="{{ img.image.url }}" rel="product"><img src="{{ img.preview.url }}"></a></li>
-            {% endfor %}
-        {% else %}
-            <li><a href="{{ object.image.url }}" rel="product"><img src="{{ object.preview.url }}"></a></li>
-        {% endif %}
-      </ul>
-    </div>
-    <div class="col-10-16 pl30">
-        {{ object.descr|safe }}
+</div>
 
-        <div>
-            <a href="{% url 'news' %}" class="btn-arrow mb50 mt50">вернуться к списку новостей и акций</a>
-        </div>
+<div class="grid article">
+  <div class="col-6-16 product-gallery">
+    <div class="product-gallery-big">
+        <a href="#"><img src="{{ object.images.all.0.preview_big.url }}" class="product-gallery-big-image" alt="" /></a>
+    </div>
+    <ul class="product-gallery-tumbs">
+        {% for img in object.images.all %}
+        <li class="product-gallery-tumbs-line">
+            <a href="{{ img.preview_big.url }}" class="product-gallery-tumbs-link {% if forloop.first %}active{% endif %}" data-origin="{{ img.image.url }}"><img src="{{ img.preview.url }}" class="product-gallery-tumbs-img" alt=""></a>
+        {% endfor %}
+    </ul>
+  </div>
+  <div class="col-10-16 pl30">
+    <div>{{ object.short_descr|safe }}</div>
+
+    <h3 class="pt25 mb5">Состав</h3>
+    <div>{{ object.composition }}</div>
+    <table class="product-content">
+      <tbody>
+        <tr>
+          <td>Энергетическая ценность (100 грамм)</td>
+          <td class="text-right">{{ object.calories }} ккал</td>
+        </tr>
+        <tr>
+          <td>Белки (100 грамм)</td>
+          <td class="text-right">{{ object.proteins }}</td>
+        </tr>
+        <tr>
+          <td>Жиры (100 грамм)</td>
+          <td class="text-right">{{ object.fats }}</td>
+        </tr>
+        <tr>
+          <td>Углеводы (100 грамм)</td>
+          <td class="text-right">{{ object.carbs }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    {% if object.storage %}
+    <h3 class="pt30 mb5">хранение</h3>
+    {{ object.storage }}
+    {% endif %}
+
+    <div class="mt10">
+        <a href="{% url 'wheretobuy' %}" class="buy-btn mt20"><span class="basket"></span>Где купить</a>
+        <a href="{% url 'products' %}" class="btn-arrow mt10 mb50">вернуться к списку продуктов</a>
     </div>
   </div>
-  <div class="grid">
-    <hr class="wavy mt50">
+</div>
+
+{% plain_flatblock 'product-first' %}
+
+<div class="grid">
+  <div class="col-6-16">
+    <hr class="wavy mt10 mr5">
   </div>
-  <div class="grid pt50">
-    {% for object in related %}
-        {% include 'news/block.html' with classes='col-1-2 overh' %}
-    {% endfor %}
+  <div class="col-4-16 text-center">
+    <h3 class="m0">блюда с этим продуктом</h3>
   </div>
+  <div class="col-6-16">
+    <hr class="wavy mt10 mr5"></hr>
+  </div>
+</div>
+<div class="grid pt40 hotfix">
+{% for object in object.recipes.all %}
+    {% include 'news/block.html' with classes='col-1-2 overh' %}
+{% endfor %}
+</div>
 {% endblock %}
 
 {% block footjs %}
 <script type="text/javascript" src="{{ STATIC }}js/jquery.fancybox.pack.js"></script>
 <script type="text/javascript" src="{{ STATIC }}js/jquery.fancybox-thumbs.js"></script>
-<script type="text/javascript" src="{{ STATIC }}js/jquery.jcarousel.min.js"></script>
-<script type="text/javascript" src="{{ STATIC }}js/jquery.pikachoose.js"></script>
-<script type="text/javascript" src="{{ STATIC }}js/product-init.js"></script>
+<script>
+$(function() {
+    var gallery = $('.product-gallery'),
+        bigImage = gallery.find('.product-gallery-big-image'),
+        bigImageLink = bigImage.parent('a'),
+        tumbs = gallery.find('.product-gallery-tumbs-link'),
+        activeClass = 'active',
+        self;
+
+    console.log(tumbs);
+
+    tumbs.on(
+        'click',
+        function() {
+            self = $(this);
+            tumbs.removeClass(activeClass);
+            self.addClass(activeClass);
+            bigImage.attr('src', self.attr('href'));
+            return false;
+        }
+    );
+
+    bigImageLink.fancybox();
+});
+</script>
 {% endblock %}

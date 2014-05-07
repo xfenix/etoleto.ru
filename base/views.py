@@ -43,6 +43,13 @@ def error_500(request):
 """
 Class based generic views
 """
+class RelatedDetailView(DetailView):
+    def get_context_data(self, **kwargs):
+        context = super(RelatedDetailView, self).get_context_data(**kwargs)
+        context['related'] = self.model.objects\
+            .exclude(pk=context['object'].pk)[:2]
+        return context
+
 # news
 class NewsList(ListView):
     model = News
@@ -51,14 +58,9 @@ class NewsList(ListView):
     paginate_by = page_size
 
 
-class NewsDetail(DetailView):
+class NewsDetail(RelatedDetailView):
     model = News
     template_name = 'news/detail.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(NewsDetail, self).get_context_data(**kwargs)
-        context['related'] = News.objects.exclude(pk=context['object'].pk)[:2]
-        return context
 
 
 # products
@@ -80,7 +82,7 @@ class RecipeList(ListView):
     paginate_by = page_size
 
 
-class RecipeDetail(DetailView):
+class RecipeDetail(RelatedDetailView):
     model = Recipe
     template_name = 'recipe/detail.html'
 

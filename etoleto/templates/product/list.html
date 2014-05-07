@@ -4,72 +4,22 @@
 {% block page-title %}Продукция{% endblock %}
 
 {% block content %}
-  <div class="grid">
+<div class="grid">
     <div class="col-1-1">
-      <h1>продукция</h1>
+        <h1>продукция</h1>
     </div>
-  </div>
-  <div class="grid grid-pad production">
+</div>
+<div class="grid grid-pad production">
+    {% for object in object_list %}
     <div class="col-1-4">
-      <a href="" class="product">
-        <img src="../img/production/milk32.png" alt="">
-        <figcaption><h3>молоко 3.2%</h3><span class="secondary-text">750 мл</span></figcaption>
-      </a>
+        <a href="{{ object.get_absolute_url }}" class="product">
+            <img src="{{ object.preview.url }}" alt="">
+            <figcaption><h3>{{ object.title }}</h3><span class="secondary-text">{{ object.weight }}</span></figcaption>
+        </a>
     </div>
-    <div class="col-1-4">
-      <a href="" class="product">
-        <img src="../img/production/milk1.png" alt="">
-        <figcaption><h3 class="blue">молоко 1%</h3><span class="secondary-text">750 мл</span></figcaption>
-      </a>
-    </div>
-    <div class="col-1-4">
-      <a href="" class="product">
-        <img src="../img/production/kefir32.png" alt="">
-        <figcaption><h3>кефир 3,2%</h3><span class="secondary-text">750 мл</span></figcaption>
-      </a>
-    </div>
-    <div class="col-1-4">
-      <a href="" class="product">
-        <img src="../img/production/kefir1.png" alt="">
-        <figcaption><h3 class="blue">кефир 1%</h3><span class="secondary-text">750 мл</span></figcaption>
-      </a>
-    </div>
-  </div>
-  <div class="grid grid-pad">
-    <div class="col-1-4">
-      <a href="" class="product">
-        <img src="../img/production/cheese9.png" alt="">
-        <figcaption><h3>творог 9%</h3><span class="secondary-text">300 грамм</span></figcaption>
-      </a>
-    </div>
-    <div class="col-1-4">
-      <a href="" class="product">
-        <img src="../img/production/cheese1.png" alt="">
-        <figcaption><h3 class="blue">творог 1%</h3><span class="secondary-text">300 грамм</span></figcaption>
-      </a>
-    </div>
-    <div class="col-1-4">
-      <a href="" class="product">
-        <img src="../img/production/sour-cream20.png" alt="">
-        <figcaption><h3>сметана 20%</h3><span class="secondary-text">300 грамм</span></figcaption>
-      </a>
-    </div>
-    <div class="col-1-4">
-      <a href="" class="product">
-        <img src="../img/production/butter82.png" alt="">
-        <figcaption><h3>масло 82,5%</h3><span class="secondary-text">300 грамм</span></figcaption>
-      </a>
-    </div>
-  </div>
-  <div class="grid grid-pad">
-    <div class="col-1-4">
-      <a href="" class="product">
-        <img src="../img/production/cream10.png" alt="">
-        <figcaption><h3>Сливки 10%</h3><span class="secondary-text">250 грамм</span></figcaption>
-      </a>
-    </div>
-  </div>
-  
-    {% plain_flatblock 'product-first' %}
-    {% plain_flatblock 'product-goods' %}
+    {% endfor %}
+</div>
+
+{% plain_flatblock 'product-first' %}
+{% plain_flatblock 'product-goods' %}
 {% endblock %}

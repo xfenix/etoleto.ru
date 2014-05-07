@@ -30,14 +30,16 @@
         </div>
     </div>
   </div>
-  <div class="grid">
-    <hr class="wavy mt50">
-  </div>
-  <div class="grid pt50">
-    {% for object in related %}
-        {% include 'news/block.html' with classes='col-1-2 overh' %}
-    {% endfor %}
-  </div>
+  {% if related %}
+      <div class="grid">
+        <hr class="wavy mt50">
+      </div>
+      <div class="grid pt50">
+        {% for object in related %}
+            {% include 'news/block.html' with classes='col-1-2 overh' %}
+        {% endfor %}
+      </div>
+  {% endif %}
 {% endblock %}
 
 {% block footjs %}

@@ -23,70 +23,36 @@
   </div>
   <div class="col-10-16 pl30">
     <h3>Ингредиенты</h3>
-    <p>на 10 порций:</p>
+    <p>{{ object.ingredients_prefix }}</p>
     <ul class="dashed">
-      <li>пачка размягченного <a href="">Масла «Это Лето»</a> 1 штука</li>
-      <li>лайм 1 штука</li>
-      <li>горсть руколы 1 штука</li>
-      <li>крупный красный сладкий перец 1 штука</li>
-      <li>чеснок 4 зубчика</li>
-      <li>соль, перец 2 щепотки</li>
+      {% for item in object.ingridients.all %}
+      <li>{{ item.title }}
+      {% endfor %}
     </ul>
 
     <h3 class="pt45">Инструкция</h3>
-    <p>Время приготовления 15 минут.</p>
-    <p>Руколу мелко рубим, можно блендером немного измельчить. Выжимаем сок
-      половины лайма. Смешиваем с 1/2 пачки мягкого масла. Перец и чеснок
-      запекаем в духовке, снимаем кожицу, пюрируем. Добавляем во вторую
-      половину масла.</p>
-    <p>Выкладываем на пленку, формируем "колбаски" и отправляем
-      в холодильник.</p>
-    <p>Подаем со свежим хлебом, добавляем к рису, картофельному пюре.
-      Время приготовления 15 минут.</p>
-    <p>Руколу мелко рубим, можно блендером немного измельчить. Выжимаем сок
-      половины лайма. Смешиваем с 1/2 пачки мягкого масла. Перец и чеснок
-      запекаем в духовке, снимаем кожицу, пюрируем. Добавляем во вторую
-      половину масла.</p>
-    <p>Выкладываем на пленку, формируем "колбаски" и отправляем
-      в холодильник.</p>
-    <p>Подаем со свежим хлебом, добавляем к рису, картофельному пюре.</p>
-
+    {{ object.instruction }}
+    
+    {% if object.note %}
     <h3 class="pt45">Примечание</h3>
-    <p>Лаймовое масло роскошно сочетается с рыбой! Даже самую обычную
-    треску превращает в нечто!</p>
+    {{ object.note }}
+    {% endif %}
 
-    <a href="" class="btn-arrow mt50 mb50">вернуться к списку рецептов</a>
+    <div>
+        <a href="{% url 'recipes' %}" class="btn-arrow mt50 mb50">вернуться к списку рецептов</a>
+    </div>
   </div>
 </div>
-<div class="grid mt50">
-  <hr class="wavy">
-</div>
-<div class="grid pt50">
-  <section class="col-1-2">
-    <article class="excerpt">
-      <a href="" class="excerpt-img">
-        <div class="img-border"></div>
-        <img src="../img/article-cows.png" alt="">
-      </a>
-      <span class="info-text">12 сентября 2014</span>
-      <h3>Фермерский Фестиваль Slow Food 2014</h3>
-      <p>Экологическое Хозяйство «Спартак» примет участие в Фермерском Фестивале Slow Food 2012, который пройдет с 14-16 сентября 2012 года.</p>
-      <div class="clear"></div>
-    </article>
-  </section>
-  <section class="col-1-2">
-    <article class="excerpt">
-      <a href="" class="excerpt-img">
-        <div class="img-border"></div>
-        <img src="../img/article-cows.png" alt="">
-      </a>
-      <span class="info-text">12 сентября 2014</span>
-      <h3>Ароматное масло с руколой, лаймом и чесноком</h3>
-      <p>Лаймовое масло роскошно сочетается с рыбой. Даже самую обычную треску превращает в нечто!</p>
-      <div class="clear"></div>
-    </article>
-  </section>
-</div>
+{% if related %}
+    <div class="grid mt50">
+      <hr class="wavy">
+    </div>
+    <div class="grid pt50 hotfix">
+        {% for object in related %}
+            {% include 'news/block.html' with classes='col-1-2 overh' %}
+        {% endfor %}
+    </div>
+{% endif %}
 {% endblock %}
 
 {% block footjs %}
