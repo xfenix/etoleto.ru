@@ -48,9 +48,15 @@ $(function() {
                 {
                     index: currentIndex,
                     helpers: {
+                        title: {
+                            type: 'outside'
+                        },
                         thumbs: {
                             width: 80,
                             height: 80
+                        },
+                        overlay: {
+                            locked: false
                         }
                     }
                 }

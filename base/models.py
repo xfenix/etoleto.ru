@@ -8,10 +8,55 @@ from imagekit.processors import *
 from base.utils import ImagePreviewField, BaseModel
 
 
+""" Base classes
+"""
+class BaseBigImage(BaseModel):
+    # middle preview for image gallery
+    # see include/gallery.html
+    # + for product, news and recipe models this is fallback
+    # for case if we dont upload gallery images
+    preview_big = ImageSpecField(
+        source='image',
+        processors=[
+            SmartResize(
+                360, 400,
+                upscale=False
+            ),
+            ResizeCanvas(360, 400)
+        ]
+    )
+
+    class Meta:
+        abstract = True
+
+
+class BaseImage(BaseBigImage):
+    # regular preview e.g. thumbnails
+    preview = ImageSpecField(
+        source='image',
+        processors=[
+            ResizeToFill(
+                81, 80,
+                upscale=False
+            )
+        ]
+    )
+    order = models.PositiveIntegerField(
+        verbose_name=u'Сортировка',
+        default=0,
+    )
+
+    def __unicode__(self):
+        return unicode(self.image)
+
+    class Meta:
+        abstract = True
+
+
 """
 News models
 """
-class News(BaseModel):
+class News(BaseBigImage):
     """ Base news model
     """
     title = models.CharField(
@@ -58,7 +103,7 @@ class News(BaseModel):
         verbose_name_plural = u'Новости'
 
 
-class NewsImages(BaseModel):
+class NewsImages(BaseImage):
     """ Gallery for news model
     """
     parent = models.ForeignKey(
@@ -70,33 +115,16 @@ class NewsImages(BaseModel):
         upload_to=u'newsgal',
         verbose_name=u'Изображение',
     )
-    # preview for news detail page
-    # where gallery is
-    preview = ImageSpecField(
-        source='image',
-        processors=[
-            ResizeToFill(
-                81, 80,
-                upscale=False
-            )
-        ]
-    )
-    order = models.PositiveIntegerField(
-        verbose_name=u'Сортировка',
-        default=0,
-    )
-
-    def __unicode__(self):
-        return unicode(self.image)
 
     class Meta:
         verbose_name = u'Изображение в новость'
         verbose_name_plural = u'Изображения в новости'
 
+
 """
 Recipes models
 """
-class Recipe(BaseModel):
+class Recipe(BaseBigImage):
     """ Base recipe model
     """
     title = models.CharField(
@@ -139,8 +167,6 @@ class Recipe(BaseModel):
     )
     instruction = models.TextField(
         verbose_name=u'Инструкция',
-        null=True,
-        blank=True,
     )
     note = models.TextField(
         verbose_name=u'Примечание',
@@ -185,7 +211,7 @@ class RecipeIngredients(BaseModel):
         verbose_name_plural = u'Ингредиенты'
 
 
-class RecipeImages(BaseModel):
+class RecipeImages(BaseImage):
     """ Gallery for recipe model
     """
     parent = models.ForeignKey(
@@ -197,35 +223,6 @@ class RecipeImages(BaseModel):
         upload_to=u'recipe',
         verbose_name=u'Изображение',
     )
-    # preview for recipe detail page
-    # where gallery is
-    detail_preview = ImageSpecField(
-        source='image',
-        processors=[
-            ResizeToFill(
-                81, 80,
-                upscale=False
-            )
-        ]
-    )
-    # preview for recipe list page
-    # and main page
-    list_preview = ImageSpecField(
-        source='image',
-        processors=[
-            ResizeToFill(
-                190, 180,
-                upscale=False
-            )
-        ]
-    )
-    order = models.PositiveIntegerField(
-        verbose_name=u'Сортировка',
-        default=0,
-    )
-
-    def __unicode__(self):
-        return u"%s" % self.image
 
     class Meta:
         verbose_name = u'Изображение в рецепте'
@@ -276,7 +273,7 @@ class ProductCategory(BaseModel):
         verbose_name_plural = u'Продукты: категории'
 
 
-class Product(BaseModel):
+class Product(BaseBigImage):
     """ Base product model
     """
     category = models.ForeignKey(
@@ -368,7 +365,7 @@ class Product(BaseModel):
         verbose_name_plural = u'Продукты'
 
 
-class ProductImages(BaseModel):
+class ProductImages(BaseImage):
     """ Gallery for product model
     """
     parent = models.ForeignKey(
@@ -380,32 +377,6 @@ class ProductImages(BaseModel):
         upload_to=u'product',
         verbose_name=u'Изображение',
     )
-    preview = ImageSpecField(
-        source='image',
-        processors=[
-            ResizeToFill(
-                81, 80,
-                upscale=False
-            )
-        ]
-    )
-    preview_big = ImageSpecField(
-        source='image',
-        processors=[
-            SmartResize(
-                360, 400,
-                upscale=False
-            ),
-            ResizeCanvas(360, 400)
-        ]
-    )
-    order = models.PositiveIntegerField(
-        verbose_name=u'Сортировка',
-        default=0,
-    )
-
-    def __unicode__(self):
-        return unicode(self.image)
 
     class Meta:
         ordering = ['order']

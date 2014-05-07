@@ -11,17 +11,7 @@
     </div>
   </div>
   <div class="grid article">
-    <div class="col-6-16 article-gallery">
-      <ul class="gallery jcarousel-skin-pika">
-        {% if object.images.all %}
-            {% for img in object.images.all %}
-            <li><a href="{{ img.image.url }}" rel="product"><img src="{{ img.preview.url }}"></a></li>
-            {% endfor %}
-        {% else %}
-            <li><a href="{{ object.image.url }}" rel="product"><img src="{{ object.preview.url }}"></a></li>
-        {% endif %}
-      </ul>
-    </div>
+    {% include 'include/gallery.html' %}
     <div class="col-10-16 pl30">
         {{ object.descr|safe }}
 
@@ -43,9 +33,5 @@
 {% endblock %}
 
 {% block footjs %}
-<script type="text/javascript" src="{{ STATIC }}js/jquery.fancybox.pack.js"></script>
-<script type="text/javascript" src="{{ STATIC }}js/jquery.fancybox-thumbs.js"></script>
-<script type="text/javascript" src="{{ STATIC }}js/jquery.jcarousel.min.js"></script>
-<script type="text/javascript" src="{{ STATIC }}js/jquery.pikachoose.js"></script>
-<script type="text/javascript" src="{{ STATIC }}js/product-init.js"></script>
+    {% include 'include/galleryjs.html' %}
 {% endblock %}

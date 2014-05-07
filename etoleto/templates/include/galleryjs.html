@@ -3,6 +3,10 @@
 <script type="text/javascript" src="{{ STATIC }}js/gallery.js"></script>
 <script>
 window.galleryJson = [
-    {% for img in object.images.all %}{href: "{{ img.image.url }}", title: "{{ img.title }}"},{% endfor %}
+    {% if object.images.all %}
+        {% for img in object.images.all %}{href: "{{ img.image.url }}", title: "{{ img.title }}"},{% endfor %}
+    {% else %}
+        {href: "{{ object.image.url }}", title: "{{ object.title }}"},
+    {% endif %}
 ]
 </script>
