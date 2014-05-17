@@ -10,7 +10,7 @@ django-devserver==0.7.0
 django-flatblocks==0.8
 django-imagekit==3.2.1
 # need to install from git!
-django-media-manager==3.3.2
+# django-media-manager==3.3.2
 django-modeldict==1.4.1
 django-suit==0.2.7
 django-utilities==0.1.5
