@@ -13,6 +13,7 @@ import os
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 from django.utils.safestring import mark_safe
 
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 CORE_PATH = os.path.realpath(os.path.dirname(__file__))
 
@@ -243,3 +244,9 @@ if DEBUG:
     INSTALLED_APPS += (
         'devserver',
     )
+
+# load production settings
+try:
+    from settings_production import *
+except ImportError:
+    pass
