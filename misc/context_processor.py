@@ -1,4 +1,5 @@
 # vim:fileencoding=utf-8
+import re
 import json
 from hashlib import sha1
 from django.core.cache import cache
@@ -12,7 +13,14 @@ from misc.models import Menu, Partners, custom_settings
 def process(request):
     def prepare_jquery():
         try:
-            conf = json.loads(custom_settings.get('JQUERY_PATH', ''))
+            conf = json.loads(
+                # allow comments
+                re.sub(
+                    ur'\/\*.*?\*\/', '', 
+                    custom_settings.get('JQUERY_PATH', ''),
+                    flags=re.U | re.S
+                )
+            )
             for item in conf:
                 if 'current' in item and item['current']:
                     return item['path']
