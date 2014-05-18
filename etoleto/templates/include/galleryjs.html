@@ -1,6 +1,11 @@
+{% load compress %}
+{% compress js %}
 <script type="text/javascript" src="{{ STATIC }}js/jquery.fancybox.pack.js"></script>
 <script type="text/javascript" src="{{ STATIC }}js/jquery.fancybox-thumbs.js"></script>
 <script type="text/javascript" src="{{ STATIC }}js/gallery.js"></script>
+{% endcompress %}
+
+{% compress js inline %}
 <script>
 window.galleryJson = [
     {% if object.images.all %}
@@ -10,3 +15,4 @@ window.galleryJson = [
     {% endif %}
 ]
 </script>
+{% endcompress %}

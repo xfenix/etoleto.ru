@@ -130,9 +130,6 @@
       </footer>
     </div>
     <script src="{% if jquery_path %}{{ jquery_path }}{% else %}http://yandex.st/jquery/1.11.1/jquery.min.js{% endif %}"></script>
-    {% compress js %}
-      {% block footjs %}{% endblock %}
-    {% endcompress %}
     <!--[if lte IE 9]>
         {% compress js %}
         <script src="{{STATIC}}js/placeholder.js"></script>

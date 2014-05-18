@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load compress %}
 
 {% block page-title %}Поиск{% endblock %}
 
@@ -15,7 +16,7 @@
 </div>
 {% endblock %}
 
-{% block footjs %}
+{% compress js inline %}
 <script>
   (function() {
     var cx = '006378881180340533581:i4nfpixckvq';
@@ -28,4 +29,4 @@
     s.parentNode.insertBefore(gcse, s);
   })();
 </script>
-{% endblock %}
+{% endcompress %}

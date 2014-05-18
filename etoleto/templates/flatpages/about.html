@@ -29,9 +29,11 @@
   </div>
 {% endblock %}
 
-{% block footjs %}
+{% compress js %}
 <script type="text/javascript" src="{{ STATIC }}js/jquery.fancybox.pack.js"></script>
 <script type="text/javascript" src="{{ STATIC }}js/jquery.fancybox-thumbs.js"></script>
+{% endcompress %}
+{% compress js inline %}
 <script type="text/javascript">
 $(document).ready(function(){
     $(".fancybox").fancybox({
@@ -52,4 +54,4 @@ $(document).ready(function(){
     });
 });
 </script>
-{% endblock %}
+{% endcompress %}

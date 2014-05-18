@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load humanize %}
+{% load humanize compress %}
 
 {% block page-title %}Главная{% endblock %}
 
@@ -99,8 +99,7 @@
 </div>
 {% endblock %}
 
-
-{% block footjs %}
+{% compress js inline %}
 <script type="text/javascript" src="{{STATIC}}js/basic-slider.js"></script>
 <script>
     jQuery(document).ready(function($) {
@@ -115,4 +114,4 @@
       });
     });
 </script>
-{% endblock %}
+{% endcompress %}
