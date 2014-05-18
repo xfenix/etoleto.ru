@@ -38,22 +38,22 @@
     {% compress css %}<link rel="stylesheet" href="{{STATIC}}css/master.css">{% endcompress %}
     {% compress css inline %}{% block extracss %}{% endblock %}{% endcompress %}
     <!--[if lt IE 9]>
-        {% compress css inline %}
+        {% compress css %}
         <link rel="stylesheet" href="{{STATIC}}css/ie8.css">
         {% endcompress %}
     <![endif]-->
     <!--[if lte IE 9]>
-        {% compress css inline %}
+        {% compress css %}
         <link rel="stylesheet" href="{{STATIC}}css/lteie9.css">
         {% endcompress %}
     <![endif]-->
     <!--[if lte IE 7]>
-        {% compress css inline %}
+        {% compress css %}
         <link rel="stylesheet" href="{{STATIC}}css/lteie7.css">
         {% endcompress %}
     <![endif]-->
     <!--[if IE]>
-        {% compress js inline %}
+        {% compress js %}
         <script src="{{STATIC}}js/html5-shiv.js"></script>
         {% endcompress %}
     <![endif]-->
@@ -134,7 +134,7 @@
       {% block footjs %}{% endblock %}
     {% endcompress %}
     <!--[if lte IE 9]>
-        {% compress js inline %}
+        {% compress js %}
         <script src="{{STATIC}}js/placeholder.js"></script>
         {% endcompress %}
     <![endif]-->
@@ -146,6 +146,7 @@
       </div>
     </div>
     <![endif]-->
+
     {% comment %}
     <!-- не знаю зачем это может понадобиться, но вдруг вам будет настолько интересно -->
     <script src="http://static.yandex.net/reflowmeter/_reflow-meter.js"></script>
