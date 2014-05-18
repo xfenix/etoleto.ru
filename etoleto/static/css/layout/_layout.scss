@@ -163,8 +163,10 @@
 
 /* WHERE TO BUY PAGE */
 .shop-list {
+  margin-right: -15px;
+
   li {
-    width: 179px;
+    width: 180px;
     height: 130px;
     border: 1px solid #e5f0d6;
     text-align: center;
@@ -177,7 +179,7 @@
     display: table-cell;
     vertical-align: middle;
     height: 94px;
-    width: 178px;
+    width: 180px;
     text-align: center;
     img {
       vertical-align: middle;

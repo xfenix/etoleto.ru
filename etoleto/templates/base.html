@@ -129,7 +129,7 @@
         </div>
       </footer>
     </div>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="{% if jquery_path %}{{ jquery_path }}{% else %}http://yandex.st/jquery/1.11.1/jquery.min.js{% endif %}"></script>
     {% compress js %}
       {% block footjs %}{% endblock %}
     {% endcompress %}
@@ -146,7 +146,10 @@
       </div>
     </div>
     <![endif]-->
+    {% comment %}
+    <!-- не знаю зачем это может понадобиться, но вдруг вам будет настолько интересно -->
     <script src="http://static.yandex.net/reflowmeter/_reflow-meter.js"></script>
+    {% endcomment %}
   </body>
 {{counter_yandex}}{{counter_google}}
 </html>

@@ -1468,40 +1468,42 @@ figure {
     border-bottom: 1px dotted #ccc; }
 
 /* WHERE TO BUY PAGE */
-.shop-list li {
-  width: 179px;
-  height: 130px;
-  border: 1px solid #e5f0d6;
-  text-align: center;
-  margin-bottom: 15px; }
-  .shop-list li:hover {
-    border: 1px solid #8dc63f; }
-.shop-list .shop-logo {
-  display: table-cell;
-  vertical-align: middle;
-  height: 94px;
-  width: 178px;
-  text-align: center; }
-  .shop-list .shop-logo img {
-    vertical-align: middle; }
-.shop-list .show-map {
-  background: #8dc63f url(../img/wavy-line-inverse.png) repeat-x top;
-  display: block;
-  height: 36px;
-  padding: 6px 0;
-  color: #fff;
-  text-decoration: none;
-  font-size: 13px;
-  line-height: 23px; }
-  .shop-list .show-map .border {
-    border-bottom: 1px dotted #fff; }
-    .shop-list .show-map .border:hover {
-      border: none; }
-  .shop-list .show-map .pointer {
+.shop-list {
+  margin-right: -15px; }
+  .shop-list li {
+    width: 180px;
+    height: 130px;
+    border: 1px solid #e5f0d6;
+    text-align: center;
+    margin-bottom: 15px; }
+    .shop-list li:hover {
+      border: 1px solid #8dc63f; }
+  .shop-list .shop-logo {
+    display: table-cell;
     vertical-align: middle;
-    background: url("../img/icons/pointer.png") no-repeat;
-    width: 12px;
-    height: 16px; }
+    height: 94px;
+    width: 180px;
+    text-align: center; }
+    .shop-list .shop-logo img {
+      vertical-align: middle; }
+  .shop-list .show-map {
+    background: #8dc63f url(../img/wavy-line-inverse.png) repeat-x top;
+    display: block;
+    height: 36px;
+    padding: 6px 0;
+    color: #fff;
+    text-decoration: none;
+    font-size: 13px;
+    line-height: 23px; }
+    .shop-list .show-map .border {
+      border-bottom: 1px dotted #fff; }
+      .shop-list .show-map .border:hover {
+        border: none; }
+    .shop-list .show-map .pointer {
+      vertical-align: middle;
+      background: url("../img/icons/pointer.png") no-repeat;
+      width: 12px;
+      height: 16px; }
 
 .shop-list.shop-inet li, .shop-list.shop-inet .shop-logo {
   height: 120px; }
