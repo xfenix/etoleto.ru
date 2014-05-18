@@ -99,19 +99,21 @@
 </div>
 {% endblock %}
 
-{% compress js inline %}
-<script type="text/javascript" src="{{STATIC}}js/basic-slider.js"></script>
-<script>
-    jQuery(document).ready(function($) {
-      $('#slider').bjqs({
-        animtype      : 'slide',
-        height        : 310,
-        width         : 960,
-        responsive    : true,
-        randomstart   : false,
-        automatic     : true,
-        showcontrols  : false
+{% block extrafoot %}
+  {% compress js inline %}
+  <script type="text/javascript" src="{{STATIC}}js/basic-slider.js"></script>
+  <script>
+      jQuery(document).ready(function($) {
+        $('#slider').bjqs({
+          animtype      : 'slide',
+          height        : 310,
+          width         : 960,
+          responsive    : true,
+          randomstart   : false,
+          automatic     : true,
+          showcontrols  : false
+        });
       });
-    });
-</script>
-{% endcompress %}
+  </script>
+  {% endcompress %}
+{% endblock %}

@@ -70,4 +70,6 @@
 </div>
 {% endblock %}
 
-{% include 'include/galleryjs.html' %}
+{% block extrafoot %}
+  {% include 'include/galleryjs.html' %}
+{% endblock %}
