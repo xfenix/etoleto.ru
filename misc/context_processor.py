@@ -7,7 +7,7 @@ from cache_utils.decorators import cached
 from misc.models import Menu, Partners, custom_settings
 
 
-@cached(86400)
+# @cached(86400)
 def process(request):
     """ default context processor
     add menu, partners and other wide site data

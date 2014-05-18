@@ -2,4 +2,7 @@ db.sqlite3
 *.pyc
 .sass-cache
 etoleto/media
-etoleto/settings_production
+etoleto/settings_production.py
+etoleto/collected_static
+project-etoleto.pid
+etoleto.log
