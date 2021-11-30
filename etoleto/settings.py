@@ -52,7 +52,7 @@ SUIT_CONFIG = {
 }
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'i@vi^9-trjjd(zr5j_4bf(l2^=tv*)0#6o9vwkg*(w@#fajt^v'
+SECRET_KEY = ''
 SITE_ID = 1
 
 DEBUG = True
